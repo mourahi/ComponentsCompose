@@ -2,6 +2,7 @@ package com.example.myapplication.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,20 +28,30 @@ fun MCats(list: List<String>,
           onChange:()->Unit)
 {
     val raz= remember { mutableStateOf(false) }
+    val nbrSelected = remember { mutableStateOf(listSelected.size)}
     LazyRow(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()){
         item {
             IconButton(onClick = {
                 raz.value = true
                 listSelected.clear()
+                nbrSelected.value = 0
                 onChange()
             }) {
-                Icon(imageVector = Icons.Filled.Clear, contentDescription = "clear", tint = Color.Black )
+                Row(verticalAlignment = Alignment.CenterVertically){
+                    Icon(
+                        imageVector = Icons.Filled.Clear,
+                        contentDescription = "clear",
+                        tint = Color.Black
+                    )
+                 if(nbrSelected.value > 0)   Text(text = nbrSelected.value.toString())
+                }
             }
         }
         items(list){ txt->
             MCat(txt, txt in listSelected,raz){ b->
                 if(raz.value) raz.value = false
                 if(b) listSelected.add(txt) else listSelected.remove(txt)
+                nbrSelected.value  = listSelected.size
                 onChange()
             }
         }
@@ -54,14 +65,18 @@ private fun MCat(txt:String, selected:Boolean=false, raz: MutableState<Boolean>,
     Surface(
         shape = RoundedCornerShape(16.dp),
         color =if (sel.value) MaterialTheme.colors.secondary else MaterialTheme.colors.primary,
-        modifier = Modifier.border(1.dp, Color.Yellow).clickable
-        {
-            sel.value = !sel.value
-            onClick(sel.value)
-        }
+        modifier = Modifier
+            .border(1.dp, Color.Yellow)
+            .clickable
+            {
+                sel.value = !sel.value
+                onClick(sel.value)
+            }
         )
     {
-        Text(txt , modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp).defaultMinSize(45.dp),textAlign = TextAlign.Center
+        Text(txt , modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+            .defaultMinSize(45.dp),textAlign = TextAlign.Center
             , fontSize =MaterialTheme.typography.h5.fontSize)
     }
 }
