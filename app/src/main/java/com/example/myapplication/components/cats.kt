@@ -1,15 +1,14 @@
 package com.example.myapplication.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -51,12 +51,17 @@ fun MCats(list: List<String>,
 private fun MCat(txt:String, selected:Boolean=false, raz: MutableState<Boolean>, onClick:(b:Boolean)->Unit){
     val sel= remember { mutableStateOf(selected) }
     if(raz.value) sel.value = false
-    Text(txt , modifier = Modifier
-        .padding(2.dp)
-        .border(1.dp, Color.Red)
-        .background(if (sel.value) Color.Gray else Color.White)
-        .clickable {
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color =if (sel.value) MaterialTheme.colors.secondary else MaterialTheme.colors.primary,
+        modifier = Modifier.border(1.dp, Color.Yellow).clickable
+        {
             sel.value = !sel.value
             onClick(sel.value)
-        })
+        }
+        )
+    {
+        Text(txt , modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp).defaultMinSize(45.dp),textAlign = TextAlign.Center
+            , fontSize =MaterialTheme.typography.h5.fontSize)
+    }
 }
