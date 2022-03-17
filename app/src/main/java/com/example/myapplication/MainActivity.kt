@@ -8,19 +8,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.example.myapplication.components.CToggle
-import com.example.myapplication.components.MCard
-import com.example.myapplication.components.MCats
-import com.example.myapplication.components.MToggles
+import com.example.myapplication.components.*
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -67,27 +61,30 @@ class MainActivity : ComponentActivity() {
 }
 data class Phone(val name:String,val tel:String)
 
+
+
 @Composable
-fun ListCard(list: List<Phone>,listToggle:List<CToggle>){
+fun ListCard(list: List<Phone>,listToggle:List<CToggle>,
+             onClickContent1:(item:Phone)->Unit={},
+             onClickContent2:(item:Phone)->Unit={}
+             ){
     LazyColumn(Modifier.fillMaxSize()){
-        items(list){
+        items(list){ el->
             MCard(
                 content1 = {
-                    Icon(Icons.Filled.Call, contentDescription = "", tint = Color.Black)
+                    MCardContent1(ic = Icons.Filled.Call, onClick ={
+                        onClickContent1(el)
+                    } )
                 },
                 content2 = {
-                    Column{
-                        Text(text = it.name)
-                        Text(text = it.tel)
-
-                    }
+                    MCardContent2(title = el.name,el.tel) {onClickContent2(el)}
                 },
-                content3 = { MToggles(listCToggles = listToggle) },
+                content3 = null /*{ MToggles(listCToggles = listToggle) }*/,
                 weights = arrayOf(1f,5f,1f)
             )
         }
     }
-
 }
+
 
 
