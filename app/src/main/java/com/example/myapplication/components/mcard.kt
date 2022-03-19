@@ -8,13 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,16 +19,16 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MCard(
+    modifier: Modifier,
     indexExpanded: MutableState<Int>,
     index:Int,
-    content1: @Composable() (() -> Unit)? = null,
+    content1: @Composable (() -> Unit)? = null,
     content2: @Composable () -> Unit,
-    contentSub2:@Composable() (() -> Unit)? = null,
-    content3: @Composable() (() -> Unit)?,
+    contentSub2:@Composable (() -> Unit)? = null,
+    content3: @Composable (() -> Unit)? = null,
     weights: Array<Float>? = null
 ){
-    Card(Modifier.fillMaxWidth()) {
-        val animated = remember { mutableStateOf(false) }
+    Card(modifier) {
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()) {
             if(content1 != null ) Surface( modifier = Modifier
@@ -75,16 +71,13 @@ fun MCard(
 
 @Composable
 fun MCardContent2(title:String,subTitle:String?){
-        Column {
-            Text(text = title, fontSize = MaterialTheme.typography.h5.fontSize )
-            if (subTitle != null) Text(text = subTitle, fontSize = MaterialTheme.typography.h6.fontSize)
-        }
+
 
 }
 
 @Composable
-fun MCardContent1(ic:ImageVector,onClick: (b:Boolean) -> Unit){
-    MToggle(icon1 = ic, onClick = {
+fun MCardContent1(modifier:Modifier=Modifier, tint:Color= Color.Black, ic:ImageVector,onClick: (b:Boolean) -> Unit){
+    MToggle(modifier,tint,icon1 = ic, onClick = {
         onClick(it)
     })
 }
