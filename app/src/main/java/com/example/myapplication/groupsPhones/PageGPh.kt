@@ -73,7 +73,9 @@ fun PageGPh(vm: VmGPh = viewModel()){
                     },
                     contentSub2 = {
                         Surface(Modifier.fillMaxWidth()) { MToggles(listCToggles = vm.listToggle) }
-                    }, content3 = { MToggles(listCToggles = vm.listToggle3) }
+                    },
+                    content3 = { MToggles(listCToggles = vm.listToggle3) },
+                    weights = arrayOf(1f,6f,1f)
                 )
             }
             item { Spacer(Modifier.padding(vertical = 4.dp)) }

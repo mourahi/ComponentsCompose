@@ -29,32 +29,35 @@ fun MCats(list: List<String>,
 {
     val raz= remember { mutableStateOf(false) }
     val nbrSelected = remember { mutableStateOf(listSelected.size)}
-    LazyRow(verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth(),
-        reverseLayout = true){
-        item {
-            IconButton(onClick = {
-                raz.value = true
-                listSelected.clear()
-                nbrSelected.value = 0
-                onChange()
-            }) {
-                Row(verticalAlignment = Alignment.CenterVertically){
-                    Icon(
-                        imageVector = Icons.Filled.Clear,
-                        contentDescription = "clear",
-                        tint = Color.Black
-                    )
-                 if(nbrSelected.value > 0)   Text(text = nbrSelected.value.toString())
-                }
+    Row(Modifier.fillMaxWidth()){
+        IconButton(onClick = {
+            raz.value = true
+            listSelected.clear()
+            nbrSelected.value = 0
+            onChange()
+        }) {
+            Row(verticalAlignment = Alignment.CenterVertically){
+                Icon(
+                    imageVector = Icons.Filled.Clear,
+                    contentDescription = "clear",
+                    tint = Color.Black
+                )
+                if(nbrSelected.value > 0)   Text(text = nbrSelected.value.toString())
             }
         }
-        items(list){ txt->
-            MCat(txt, txt in listSelected,raz){ b->
-                if(raz.value) raz.value = false
-                if(b) listSelected.add(txt) else listSelected.remove(txt)
-                nbrSelected.value  = listSelected.size
-                onChange()
+        LazyRow(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
+            reverseLayout = false
+        )
+        {
+            items(list) { txt ->
+                MCat(txt, txt in listSelected, raz) { b ->
+                    if (raz.value) raz.value = false
+                    if (b) listSelected.add(txt) else listSelected.remove(txt)
+                    nbrSelected.value = listSelected.size
+                    onChange()
+                }
             }
         }
     }

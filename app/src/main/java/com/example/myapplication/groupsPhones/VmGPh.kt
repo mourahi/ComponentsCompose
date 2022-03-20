@@ -2,7 +2,10 @@ package com.example.myapplication.groupsPhones
 
 import android.util.Log
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +17,7 @@ class VmGPh:ViewModel() {
     val mList = RepoGPhone.mList
 
     val mListCats = mutableStateListOf<String>()
-    val mListCatsSelected = mutableListOf("")
+    val mListCatsSelected = mutableListOf<String>()
     init {
         viewModelScope.launch {
             RepoGPhone.refreshMList()
@@ -23,8 +26,6 @@ class VmGPh:ViewModel() {
         }
     }
 
-
-
     // debut Icons Card
     val listToggle = listOf(
         CToggle(icon1 = Icons.Filled.FavoriteBorder,
@@ -32,17 +33,16 @@ class VmGPh:ViewModel() {
             selected = false,
             txt = "12"){ Log.d("adil","I am here 1 click = $it")},
         CToggle(
-            icon1 = Icons.Filled.Add,
-            icon2 = Icons.Filled.Delete,
+            icon1 = Icons.Filled.CheckBoxOutlineBlank,
+            Icons.Filled.CheckBox,
             selected =  false,
             txt = null){ Log.d("adil","I am here 2 click = $it")},
     )
 
     val listToggle3 = listOf(
         CToggle(
-            icon1 = Icons.Filled.Check,
-            icon2 = Icons.Filled.CheckCircle,
-            selected = false,
-            txt =  null){ Log.d("adil","I am here 1 click = $it")})
+            icon1 = Icons.Filled.CheckBoxOutlineBlank,
+            Icons.Filled.CheckBox,
+            selected = false, txt =  null){ Log.d("adil","I am here 1 click = $it")})
     //fin
 }

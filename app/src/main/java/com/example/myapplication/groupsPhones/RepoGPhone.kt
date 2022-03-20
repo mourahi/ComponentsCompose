@@ -13,6 +13,6 @@ object RepoGPhone{
             GPhone("DP-KALAA-SRAGHNA","MARRAKECH-SAFI","", official = false, fav = false)
         ))
         mListCats.clear()
-        mListCats.addAll(listOf("un","deux","trois","cinq"))
+        mListCats.addAll(listOf("un","deux","trois","cinq","six","sept","huit","neuf","dix","onze"))
     }
 }
