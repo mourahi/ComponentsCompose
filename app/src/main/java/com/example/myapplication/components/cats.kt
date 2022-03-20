@@ -29,7 +29,9 @@ fun MCats(list: List<String>,
 {
     val raz= remember { mutableStateOf(false) }
     val nbrSelected = remember { mutableStateOf(listSelected.size)}
-    LazyRow(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()){
+    LazyRow(verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+        reverseLayout = true){
         item {
             IconButton(onClick = {
                 raz.value = true

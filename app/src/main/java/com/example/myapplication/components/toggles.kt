@@ -20,17 +20,20 @@ data class CToggle(val icon1: ImageVector, val icon2: ImageVector?, val selected
 
 @Composable
 fun MToggles(listCToggles: List<CToggle>){
-    Row(verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.padding(horizontal = 5.dp)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.padding(horizontal = 5.dp)
         ) {
-        listCToggles.forEach {
-            MToggle(icon1 = it.icon1, icon2 = it.icon2,selected = it.selected,
-                txt = it.txt){ r->
-                it.onClick(r)
+            listCToggles.forEach {
+                MToggle(
+                    icon1 = it.icon1, icon2 = it.icon2, selected = it.selected,
+                    txt = it.txt
+                ) { r ->
+                    it.onClick(r)
+                }
             }
         }
-    }
 }
 
 
