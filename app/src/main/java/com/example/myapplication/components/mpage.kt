@@ -1,5 +1,6 @@
 package com.example.myapplication.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,12 +41,15 @@ fun MPage(
             Modifier
                 .fillMaxSize()
                 .padding(5.dp)){
-            if (contentCats != null && expandCats.value) {
-                Surface(Modifier.fillMaxWidth().padding(5.dp).border(1.dp, Color.Black) ){ contentCats() }
+            AnimatedVisibility (contentCats != null && expandCats.value) {
+                Surface(Modifier.fillMaxWidth().padding(5.dp).border(1.dp, Color.Black) ){
+                    if (contentCats != null)  contentCats()
+
+                }
             }
-            if (contentOperations != null && expandOperations.value) {
+            AnimatedVisibility (contentOperations != null && expandOperations.value) {
                 Surface(Modifier.fillMaxWidth().padding(5.dp).border(1.dp, Color.Black)) {
-                    contentOperations()
+                    if (contentOperations != null) contentOperations()
             }
             }
             if (contentCards != null) {

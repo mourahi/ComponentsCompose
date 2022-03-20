@@ -45,12 +45,12 @@ fun MToggle(modifier:Modifier=Modifier.size(30.dp), tint:Color= Color.Black, ico
         onClick(sel.value)
     }) {
         Row(verticalAlignment = Alignment.CenterVertically){
+            if(txt != null ) Text(text = txt)
             Icon(modifier = modifier,
                 imageVector = if (!sel.value || icon2 == null) icon1 else icon2,
                 contentDescription = null,
                 tint = tint
             )
-            if(txt != null ) Text(text = txt)
         }
     }
 }

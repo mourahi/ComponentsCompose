@@ -72,7 +72,11 @@ fun PageGPh(vm: VmGPh = viewModel()){
                         }
                     },
                     contentSub2 = {
-                        Surface(Modifier.fillMaxWidth()) { MToggles(listCToggles = vm.listToggle) }
+                        Surface(Modifier.fillMaxWidth()) { MToggles(listCToggles = listOf(
+                            CToggle(Icons.Filled.Sms,null,false,null,{}),
+                            CToggle(Icons.Filled.Place ,null,false,null,{}),
+                            CToggle(Icons.Filled.FavoriteBorder,Icons.Filled.Favorite,false,null,{}),
+                            )) }
                     },
                     content3 = { MToggles(listCToggles = vm.listToggle3) },
                     weights = arrayOf(1f,6f,1f)
