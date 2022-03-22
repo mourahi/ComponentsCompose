@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -51,27 +52,39 @@ fun PageGPh(vm: VmGPh = viewModel()){
                 Log.d("adil", "listSelected=${vm.mListCatsSelected}")
             } },
         contentOperations = {
-            Row(Modifier.fillMaxWidth()){
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
+                MToggle(
+                    icon1 = Icons.Filled.Delete,
+                    icon2 = null,
+                    selected =false,
+                    txt = null
+                ){
+                    vm.deleteSelected()
+                    selected.value = false
+                }
+                Spacer(modifier = Modifier.width(10.dp))
                 MToggle(
                     icon1 = Icons.Filled.FavoriteBorder,
-                    icon2 =  Icons.Filled.Favorite ,
-                    selected =fav.value,
-                    txt = fav.value.toString()
+                    icon2 = Icons.Filled.Favorite,
+                    selected = fav.value,
+                    txt = vm.getNbrFav()
                 ) {
                     if(vm.mListCatsSelected.size > 0) {
                         fav.value = it
-                        vm.allFav(it)
+                        vm.allFav()
                     }
                 }
+                Spacer(modifier = Modifier.width(10.dp))
                 MToggle(
                     icon1 = Icons.Filled.CheckBoxOutlineBlank,
                     icon2 = Icons.Filled.CheckBox,
-                    selected = selected.value,
-                    txt = selected.value.toString()
+                    selected = if(vm.mList.size > 0) selected.value else false ,
+                    txt = vm.getNbrSel()
                 ) {
                     selected.value = it
                     vm.allSel(it)
                 }
+                Spacer(modifier = Modifier.width(10.dp))
             }
         }
     ) {
@@ -93,7 +106,14 @@ fun PageGPh(vm: VmGPh = viewModel()){
                     indexExpanded = indexExpanded,
                     index = index,
                     content1 = {
-                        MToggle(tint = Color.Red, icon1 = Icons.Filled.Call, selected = false) {}
+                        Box(){
+                         if(el.fav)   Icon(modifier = Modifier.align(Alignment.TopStart) ,imageVector = Icons.Filled.Favorite, tint = Color.Green, contentDescription = null)
+                            MToggle(
+                                tint = Color.Red,
+                                icon1 = Icons.Filled.Call,
+                                selected = false
+                            ) {}
+                        }
                     },
                     content2 = {
                         Column(Modifier.fillMaxWidth()) {
@@ -116,7 +136,7 @@ fun PageGPh(vm: VmGPh = viewModel()){
                         icon1 = Icons.Filled.CheckBoxOutlineBlank,
                         icon2 = Icons.Filled.CheckBox,
                         selected = el.sel,
-                            txt = el.sel.toString()
+                            txt = null
                     ) {
                             selected.value = vm.oneSel(it,index)
                         }
