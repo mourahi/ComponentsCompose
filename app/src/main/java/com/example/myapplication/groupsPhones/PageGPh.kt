@@ -33,7 +33,14 @@ fun PageGPh(vm: VmGPh = viewModel()){
     val fav = remember { mutableStateOf(false)}
 
     MPage(
-        contentTitle = {Text("une page")},
+        contentTitle = {
+                       MTextField(
+                           title = "ma page",
+                           openEditor = null,
+                       ){
+                            vm.find(it)
+                       }
+        },
         contentActions = {
                          IconButton(onClick = {openedMenu.value = !openedMenu.value}) {
                              Icon(Icons.Filled.MoreVert, contentDescription ="more", tint = Color.White )
@@ -50,6 +57,7 @@ fun PageGPh(vm: VmGPh = viewModel()){
         contentCats = {
             MCats(vm.mListCats, vm.mListCatsSelected) {
                 Log.d("adil", "listSelected=${vm.mListCatsSelected}")
+                vm.find()
             } },
         contentOperations = {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
@@ -61,6 +69,7 @@ fun PageGPh(vm: VmGPh = viewModel()){
                 ){
                     vm.deleteSelected()
                     selected.value = false
+                    if(vm.mList.size == 0) expandOperations.value = false
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 MToggle(
@@ -117,8 +126,8 @@ fun PageGPh(vm: VmGPh = viewModel()){
                     },
                     content2 = {
                         Column(Modifier.fillMaxWidth()) {
-                            Text(text = el.dp)
-                            Text(text = el.region)
+                            Text(text = el.name) // name = dp
+                            Text(text = el.cat)  // region
                             Spacer(modifier = Modifier.padding(vertical = 5.dp))
                         }
                     },

@@ -27,7 +27,7 @@ class VmGPh:ViewModel() {
         }
         mListCatsSelected.clear()
         if(b){
-            t.forEach { r-> mListCatsSelected.add(r.dp) }
+            t.forEach { r-> mListCatsSelected.add(r.name) }
         }
         RepoGPhone.mList.addAll(t)
     }
@@ -46,7 +46,7 @@ class VmGPh:ViewModel() {
         val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
         val v = t[index]
         v.sel = b ; RepoGPhone.mList.addAll(t)
-        if(v.dp in mListCatsSelected) mListCatsSelected.remove(v.dp) else mListCatsSelected.add(v.dp)
+        if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
         return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
     }
     fun oneFav(b:Boolean,index:Int):Boolean{
@@ -61,13 +61,18 @@ class VmGPh:ViewModel() {
     fun deleteSelected(){
         if(mListCatsSelected.isNotEmpty()){
                 RepoGPhone.mList.forEach {
-                if(it.sel) RepoGPhone.mList.remove(it) ; Log.d("adil","supprimer ${it.dp}")
+                if(it.sel) RepoGPhone.mList.remove(it) ; Log.d("adil","supprimer ${it.name}")
             }
             mListCatsSelected.clear()
         }
     }
     fun getNbrSel():String{
       return  if(mListCatsSelected.size> 0) mListCatsSelected.size.toString() else ""
+    }
+    fun find(s:String?=null){
+        var t =if(mListCatsSelected.isNotEmpty())  mListInitial.filter { it.cat in mListCatsSelected }.toList() else mListInitial.toList()
+       t= if(s != null) t.filter { it.name.contains(s,ignoreCase = true) } else t
+        RepoGPhone.mList.clear() ; RepoGPhone.mList.addAll(t)
     }
 
 }
