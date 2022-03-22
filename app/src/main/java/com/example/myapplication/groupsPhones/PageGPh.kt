@@ -1,5 +1,6 @@
 package com.example.myapplication.groupsPhones
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.components.*
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun PageGPh(vm: VmGPh = viewModel()){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(true) }
     val openedMenu  = remember { mutableStateOf(false) }
+    val selected = remember { mutableStateOf(false)}
+    val fav = remember { mutableStateOf(false)}
 
     MPage(
         contentTitle = {Text("une page")},
@@ -33,9 +38,10 @@ fun PageGPh(vm: VmGPh = viewModel()){
                              Icon(Icons.Filled.MoreVert, contentDescription ="more", tint = Color.White )
                          }
                          MoreMenu(openedMenu =openedMenu , listMenu = listOf(
-                             ItemMenu("مجموعة",Icons.Filled.Add,null,null),
-                             ItemMenu("تذبير",Icons.Filled.Edit, expandOperations,null),
-                             ItemMenu("الكل",Icons.Filled.Delete,null,null),
+                             ItemMenu(" تحميل",Icons.Outlined.Cloud,null,null),
+                             ItemMenu(" مجموعة",Icons.Filled.Add,null,null),
+                             ItemMenu(" تدبير",Icons.Filled.Edit, expandOperations,null),
+                             ItemMenu(" الكل",Icons.Filled.Delete,null,null),
                          ))
         } ,
         expandCats = expandCats,
@@ -44,7 +50,30 @@ fun PageGPh(vm: VmGPh = viewModel()){
             MCats(vm.mListCats, vm.mListCatsSelected) {
                 Log.d("adil", "listSelected=${vm.mListCatsSelected}")
             } },
-        contentOperations = { MToggles(vm.listToggle) }
+        contentOperations = {
+            Row(Modifier.fillMaxWidth()){
+                MToggle(
+                    icon1 = Icons.Filled.FavoriteBorder,
+                    icon2 =  Icons.Filled.Favorite ,
+                    selected =fav.value,
+                    txt = fav.value.toString()
+                ) {
+                    if(vm.mListCatsSelected.size > 0) {
+                        fav.value = it
+                        vm.allFav(it)
+                    }
+                }
+                MToggle(
+                    icon1 = Icons.Filled.CheckBoxOutlineBlank,
+                    icon2 = Icons.Filled.CheckBox,
+                    selected = selected.value,
+                    txt = selected.value.toString()
+                ) {
+                    selected.value = it
+                    vm.allSel(it)
+                }
+            }
+        }
     ) {
         //debut
         val indexExpanded = remember { mutableStateOf(-1) }
@@ -55,6 +84,7 @@ fun PageGPh(vm: VmGPh = viewModel()){
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             itemsIndexed(vm.mList) { index, el ->
+                Log.d("adil","ici = el.sel = ${el.sel}")
                 MCard(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -63,22 +93,34 @@ fun PageGPh(vm: VmGPh = viewModel()){
                     indexExpanded = indexExpanded,
                     index = index,
                     content1 = {
-                        MToggle(tint = Color.Red, icon1 = Icons.Filled.Call, onClick = {})
+                        MToggle(tint = Color.Red, icon1 = Icons.Filled.Call, selected = false) {}
                     },
                     content2 = {
                         Column(Modifier.fillMaxWidth()) {
                             Text(text = el.dp)
                             Text(text = el.region)
+                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
                         }
                     },
                     contentSub2 = {
                         Surface(Modifier.fillMaxWidth()) { MToggles(listCToggles = listOf(
-                            CToggle(Icons.Filled.Sms,null,false,null,{}),
-                            CToggle(Icons.Filled.Place ,null,false,null,{}),
-                            CToggle(Icons.Filled.FavoriteBorder,Icons.Filled.Favorite,false,null,{}),
+                            CToggle(Icons.Filled.Sms,null,null,null) {},
+                            CToggle(Icons.Filled.Place ,null,null,null) {},
+                            CToggle(Icons.Filled.FavoriteBorder,Icons.Filled.Favorite,el.fav,null) {
+                                fav.value = vm.oneFav(it,index)
+                            },
                             )) }
                     },
-                    content3 = { MToggles(listCToggles = vm.listToggle3) },
+                    content3 =if(!expandOperations.value) null else  {  {
+                        MToggle(
+                        icon1 = Icons.Filled.CheckBoxOutlineBlank,
+                        icon2 = Icons.Filled.CheckBox,
+                        selected = el.sel,
+                            txt = el.sel.toString()
+                    ) {
+                            selected.value = vm.oneSel(it,index)
+                        }
+                    } },
                     weights = arrayOf(1f,6f,1f)
                 )
             }

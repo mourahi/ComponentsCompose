@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
-data class CToggle(val icon1: ImageVector, val icon2: ImageVector?, val selected: Boolean, val txt: String?, val onClick: (b: Boolean) -> Unit)
+data class CToggle(val icon1: ImageVector, val icon2: ImageVector?, val selected: Boolean? = null, val txt: String?, val onClick: (b: Boolean) -> Unit)
 
 @Composable
 fun MToggles(listCToggles: List<CToggle>){
@@ -27,7 +27,7 @@ fun MToggles(listCToggles: List<CToggle>){
         ) {
             listCToggles.forEach {
                 MToggle(
-                    icon1 = it.icon1, icon2 = it.icon2, selected = it.selected,
+                    icon1 = it.icon1, icon2 = it.icon2, selected = it.selected ?: false,
                     txt = it.txt
                 ) { r ->
                     it.onClick(r)
@@ -38,16 +38,24 @@ fun MToggles(listCToggles: List<CToggle>){
 
 
 @Composable
-fun MToggle(modifier:Modifier=Modifier.size(30.dp), tint:Color= Color.Black, icon1: ImageVector, icon2: ImageVector? =null, selected:Boolean=false, txt:String?=null, onClick:(b:Boolean)->Unit){
-    val sel = remember { mutableStateOf(selected) }
+fun MToggle(
+    modifier:Modifier=Modifier.size(30.dp),
+    tint:Color= Color.Black,
+    icon1: ImageVector,
+    icon2: ImageVector? =null,
+    selected: Boolean,
+    txt:String?=null,
+    onClick:(b:Boolean)->Unit){
+    val sel = remember { mutableStateOf(selected)}
     IconButton(onClick = {
-        sel.value = !sel.value
-        onClick(sel.value)
+            sel.value = !selected
+            onClick(sel.value)
+
     }) {
         Row(verticalAlignment = Alignment.CenterVertically){
             if(txt != null ) Text(text = txt)
             Icon(modifier = modifier,
-                imageVector = if (!sel.value || icon2 == null) icon1 else icon2,
+                imageVector = if (selected && icon2 != null) icon2 else icon1,
                 contentDescription = null,
                 tint = tint
             )

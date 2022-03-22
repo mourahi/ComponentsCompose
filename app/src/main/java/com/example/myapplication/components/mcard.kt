@@ -77,7 +77,7 @@ fun MCardContent2(title:String,subTitle:String?){
 
 @Composable
 fun MCardContent1(modifier:Modifier=Modifier, tint:Color= Color.Black, ic:ImageVector,onClick: (b:Boolean) -> Unit){
-    MToggle(modifier,tint,icon1 = ic, onClick = {
+    MToggle(modifier,tint, icon1 = ic, selected = false) {
         onClick(it)
-    })
+    }
 }

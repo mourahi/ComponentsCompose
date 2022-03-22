@@ -1,19 +1,12 @@
 package com.example.myapplication.groupsPhones
 
-import android.util.Log
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckBox
-import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.components.CToggle
 import kotlinx.coroutines.launch
 
 class VmGPh:ViewModel() {
-    private val mListInitial = mutableListOf<GPhone>()
+     val mListInitial = mutableListOf<GPhone>()
     val mList = RepoGPhone.mList
 
     val mListCats = mutableStateListOf<String>()
@@ -26,23 +19,39 @@ class VmGPh:ViewModel() {
         }
     }
 
-    // debut Icons Card
-    val listToggle = listOf(
-        CToggle(icon1 = Icons.Filled.FavoriteBorder,
-            icon2 = Icons.Filled.Favorite,
-            selected = false,
-            txt = "12"){ Log.d("adil","I am here 1 click = $it")},
-        CToggle(
-            icon1 = Icons.Filled.CheckBoxOutlineBlank,
-            Icons.Filled.CheckBox,
-            selected =  false,
-            txt = null){ Log.d("adil","I am here 2 click = $it")},
-    )
+    fun allSel(b:Boolean){
+        val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
+        t.forEach{
+            it.sel = b
+        }
+        mListCatsSelected.clear() ;
+        if(b){
+            t.forEach { r-> mListCatsSelected.add(r.dp) }
+        }
+        RepoGPhone.mList.addAll(t)
+    }
+    fun allFav(b:Boolean){
+        val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
+        RepoGPhone.mList.clear();
+        val nbrFav  = t.filter { it.fav }.size
+        val nbrSel = t.filter { it.sel }.size
+        t.forEach{
+            if(nbrSel > nbrFav) { it.fav = true }
+            else if(it.sel) it.fav = !it.fav
+        }
+        RepoGPhone.mList.addAll(t)
+    }
+    fun oneSel(b:Boolean,index:Int): Boolean{
+        val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
+        val v = t[index]
+        v.sel = b ; RepoGPhone.mList.addAll(t)
+        if(v.dp in mListCatsSelected) mListCatsSelected.remove(v.dp) else mListCatsSelected.add(v.dp)
+        return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
+    }
+    fun oneFav(b:Boolean,index:Int):Boolean{
+        val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
+        t[index].fav = b ; RepoGPhone.mList.addAll(t) ;
+        return  mList.size>0 && (mList.size == mList.filter { it.fav }.size)
+    }
 
-    val listToggle3 = listOf(
-        CToggle(
-            icon1 = Icons.Filled.CheckBoxOutlineBlank,
-            Icons.Filled.CheckBox,
-            selected = false, txt =  null){ Log.d("adil","I am here 1 click = $it")})
-    //fin
 }
