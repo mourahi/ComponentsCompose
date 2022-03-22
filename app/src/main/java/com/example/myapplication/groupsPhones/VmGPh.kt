@@ -1,5 +1,6 @@
 package com.example.myapplication.groupsPhones
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -56,13 +57,12 @@ class VmGPh:ViewModel() {
     fun getNbrFav():String{
         val nbrF = mList.filter { it.fav }.size
        return if(nbrF>0)  nbrF.toString() else ""
-
     }
     fun deleteSelected(){
         if(mListCatsSelected.isNotEmpty()){
-            mList.filter { it.dp !in mListCatsSelected }
-            RepoGPhone.mList.clear()
-            RepoGPhone.mList.addAll(mList)
+                RepoGPhone.mList.forEach {
+                if(it.sel) RepoGPhone.mList.remove(it) ; Log.d("adil","supprimer ${it.dp}")
+            }
             mListCatsSelected.clear()
         }
     }
