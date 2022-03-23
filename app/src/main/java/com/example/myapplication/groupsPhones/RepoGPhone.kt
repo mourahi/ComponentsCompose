@@ -7,12 +7,14 @@ object RepoGPhone{
     val mListCats = mutableStateListOf<String>()
 
     fun refreshMList(){
-        mList.clear()
-        mList.addAll(listOf<GPhone>(
+        val d = listOf<GPhone>(
             GPhone("DP-SAFI","MARRAKECH-SAFI","", official = false, fav = false),
             GPhone("DP-KALAA-SRAGHNA","MARRAKECH-SAFI","", official = false, fav = false)
-        ))
+        )
+        val cat = d.map{it.cat}.toSet()
+        mList.clear()
+        mList.addAll(d)
         mListCats.clear()
-        mListCats.addAll(listOf("un","deux","trois","cinq","six","sept","huit","neuf","dix","onze"))
+        mListCats.addAll(cat)
     }
 }

@@ -27,7 +27,7 @@ import com.example.myapplication.components.*
 @Composable
 fun PageGPh(vm: VmGPh = viewModel()){
     val expandCats  = remember { mutableStateOf(true) }
-    val expandOperations  = remember { mutableStateOf(true) }
+    val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }
     val selected = remember { mutableStateOf(false)}
     val fav = remember { mutableStateOf(false)}
@@ -55,10 +55,12 @@ fun PageGPh(vm: VmGPh = viewModel()){
         expandCats = expandCats,
         expandOperations =expandOperations,
         contentCats = {
-            MCats(vm.mListCats, vm.mListCatsSelected) {
-                Log.d("adil", "listSelected=${vm.mListCatsSelected}")
-                vm.find()
-            } },
+            if(vm.mListCats.size>1) { // no need to show one cat
+                MCats(vm.mListCats, vm.mListCatsSelected) {
+                    Log.d("adil", "listSelected=${vm.mListCatsSelected}")
+                    vm.find()
+                } }
+        },
         contentOperations = {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
                 MToggle(
