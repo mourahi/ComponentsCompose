@@ -6,10 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Cloud
@@ -22,6 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.components.*
+import com.example.myapplication.components.mform.CAction
+import com.example.myapplication.components.mform.CTextFieldForm
+import com.example.myapplication.components.mform.MForm
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -31,6 +31,7 @@ fun PageGPh(vm: VmGPh = viewModel()){
     val openedMenu  = remember { mutableStateOf(false) }
     val selected = remember { mutableStateOf(false)}
     val fav = remember { mutableStateOf(false)}
+    val openAddGPH = remember { mutableStateOf(false)}
 
     MPage(
         contentTitle = {
@@ -47,7 +48,9 @@ fun PageGPh(vm: VmGPh = viewModel()){
                          }
                          MoreMenu(openedMenu =openedMenu , listMenu = listOf(
                              ItemMenu(" تحميل",Icons.Outlined.Cloud,null,null),
-                             ItemMenu(" مجموعة",Icons.Filled.Add,null,null),
+                             ItemMenu(" مجموعة",Icons.Filled.Add,null,){
+                                                 openAddGPH.value = true
+                             },
                              ItemMenu(" تدبير",Icons.Filled.Edit, expandOperations,null),
                              ItemMenu(" الكل",Icons.Filled.Delete,null,null),
                          ))
@@ -160,4 +163,27 @@ fun PageGPh(vm: VmGPh = viewModel()){
         //fin
     }
 
+    if(openAddGPH.value) AlertDialog(
+        onDismissRequest = { },
+        title = {},
+        text = {
+            val listCTextFieldForm = listOf(
+                CTextFieldForm("","dp"){},
+                CTextFieldForm("","region"){},
+                CTextFieldForm("click ici","","combo", listCombo = listOf("un","deux","trois")){}
+            )
+            val listActions = listOf(
+                CAction("Save"){
+                    listCTextFieldForm.forEach {
+                        Log.d("adil","valeur = ${it.value}")
+                        openAddGPH.value = false
+                    }
+                },
+                CAction("Edit"){},
+                CAction("Delete"){}
+            )
+            MForm(list = listCTextFieldForm,listActions=listActions)
+        },
+        buttons = {}
+            )
 }

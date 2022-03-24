@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun BigSI() {
-    NavHost(navController = viewModelMain.navController , startDestination = "mpageform"){
+    NavHost(navController = viewModelMain.navController , startDestination = "mainpage"){
         composable("mainpage"){ PageGPh() }
         composable("mpageform"){ MPageForm() }
     }
