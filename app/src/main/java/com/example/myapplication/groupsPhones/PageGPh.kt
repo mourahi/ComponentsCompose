@@ -35,7 +35,7 @@ fun PageGPh(vm: VmGPh = viewModel()){
     MPage(
         contentTitle = {
                        MTextField(
-                           title = "ma page",
+                           title = "مجموعات الهاتف",
                            openEditor = null,
                        ){
                             vm.find(it)

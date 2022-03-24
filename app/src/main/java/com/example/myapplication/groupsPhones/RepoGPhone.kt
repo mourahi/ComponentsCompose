@@ -12,9 +12,7 @@ object RepoGPhone{
             GPhone("DP-KALAA-SRAGHNA","MARRAKECH-SAFI","", official = false, fav = false)
         )
         val cat = d.map{it.cat}.toSet()
-        mList.clear()
-        mList.addAll(d)
-        mListCats.clear()
-        mListCats.addAll(cat)
+        mList.clear(); mList.addAll(d)
+        mListCats.clear(); mListCats.addAll(cat)
     }
 }

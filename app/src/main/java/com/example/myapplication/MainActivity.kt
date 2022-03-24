@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.components.mform.MPageForm
 import com.example.myapplication.groupsPhones.PageGPh
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -37,8 +38,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun BigSI() {
-    NavHost(navController = viewModelMain.navController , startDestination = "mainpage"){
+    NavHost(navController = viewModelMain.navController , startDestination = "mpageform"){
         composable("mainpage"){ PageGPh() }
+        composable("mpageform"){ MPageForm() }
     }
 }
 
