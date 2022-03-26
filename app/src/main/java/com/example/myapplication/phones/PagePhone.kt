@@ -1,4 +1,4 @@
-package com.example.myapplication.groupsPhones
+package com.example.myapplication.phones
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -22,11 +22,10 @@ import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
-import com.example.myapplication.viewModelMain
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun PageGPh(vm: VmGPh = viewModel()){
+fun PagePh(vm: VmPh = viewModel()){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }
@@ -37,7 +36,7 @@ fun PageGPh(vm: VmGPh = viewModel()){
     MPage(
         contentTitle = {
                        MTextField(
-                           title = "مجموعات الهاتف",
+                           title = "هواتف",
                            openEditor = null,
                        ){
                             vm.find(it)
@@ -127,15 +126,13 @@ fun PageGPh(vm: VmGPh = viewModel()){
                                 tint = Color.Red,
                                 icon1 = Icons.Filled.Call,
                                 selected = false
-                            ) {
-                                viewModelMain.navController.navigate("phonepage")
-                            }
+                            ) {}
                         }
                     },
                     content2 = {
                         Column(Modifier.fillMaxWidth()) {
                             Text(text = el.name) // name = dp
-                            Text(text = el.cat)  // region
+                            Text(text = el.person)  // region
                             Spacer(modifier = Modifier.padding(vertical = 5.dp))
                         }
                     },
