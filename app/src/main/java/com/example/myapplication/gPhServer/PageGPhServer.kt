@@ -1,4 +1,4 @@
-package com.example.myapplication.phones
+package com.example.myapplication.gPhServer
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -26,7 +26,7 @@ import com.example.myapplication.viewModelMain
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun PagePh(vm: VmPh = viewModel()){
+fun PageGPhServer(vm: VmGPhServer = viewModel()){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }
@@ -36,13 +36,13 @@ fun PagePh(vm: VmPh = viewModel()){
 
     MPage(
         contentNavigationIcon = {
-            IconButton(onClick = { viewModelMain.navController.popBackStack() }) {
-                Icon(Icons.Filled.ArrowForward, contentDescription = "return")
-            }
-        },
+                               IconButton(onClick = { viewModelMain.navController.popBackStack() }) {
+                                   Icon(Icons.Filled.ArrowForward, contentDescription = "return")
+                               }
+        } ,
         contentTitle = {
                        MTextField(
-                           title = "هواتف",
+                           title = "مجموعات رسمية",
                            openEditor = null,
                        ){
                             vm.find(it)
@@ -132,13 +132,15 @@ fun PagePh(vm: VmPh = viewModel()){
                                 tint = Color.Red,
                                 icon1 = Icons.Filled.Call,
                                 selected = false
-                            ) {}
+                            ) {
+                                viewModelMain.navController.navigate("phonepage")
+                            }
                         }
                     },
                     content2 = {
                         Column(Modifier.fillMaxWidth()) {
                             Text(text = el.name) // name = dp
-                            Text(text = el.person)  // region
+                            Text(text = el.cat)  // region
                             Spacer(modifier = Modifier.padding(vertical = 5.dp))
                         }
                     },

@@ -48,7 +48,9 @@ fun PageGPh(vm: VmGPh = viewModel()){
                              Icon(Icons.Filled.MoreVert, contentDescription ="more", tint = Color.White )
                          }
                          MoreMenu(openedMenu =openedMenu , listMenu = listOf(
-                             ItemMenu(" تحميل",Icons.Outlined.Cloud,null,null),
+                             ItemMenu(" تحميل",Icons.Outlined.Cloud,null,){
+                                 viewModelMain.navController.navigate("phonepageserver")
+                             },
                              ItemMenu(" مجموعة", Icons.Filled.Add, null){
                                                  openAddGPH.value = true
                              },

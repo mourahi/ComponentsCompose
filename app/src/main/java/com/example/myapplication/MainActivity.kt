@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.mform.MPageForm
+import com.example.myapplication.gPhServer.PageGPhServer
 import com.example.myapplication.groupsPhones.PageGPh
 import com.example.myapplication.phones.PagePh
 import com.example.myapplication.ui.theme.MyApplicationTheme
@@ -43,6 +44,7 @@ private fun BigSI() {
         composable("mainpage"){ PageGPh() }
         composable("mpageform"){ MPageForm() } // a supprimer
         composable("phonepage"){ PagePh() }
+        composable("phonepageserver"){ PageGPhServer() }
     }
 }
 
