@@ -22,7 +22,7 @@ import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
-import com.example.myapplication.viewModelMain
+import com.example.myapplication.mainbigsi.viewModelMain
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -55,7 +55,9 @@ fun PageGPh(vm: VmGPh = viewModel()){
                                                  openAddGPH.value = true
                              },
                              ItemMenu(" تدبير",Icons.Filled.Edit, expandOperations,null),
-                             ItemMenu(" الكل",Icons.Filled.Delete,null,null),
+                             ItemMenu(" الكل",Icons.Filled.Delete,null){
+                                 viewModelMain.navController.navigate("pagenews")
+                             },
                          ))
         } ,
         expandCats = expandCats,

@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.mainbigsi
 
 import android.app.Application
 import android.content.Context

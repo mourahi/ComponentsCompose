@@ -22,7 +22,7 @@ import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
-import com.example.myapplication.viewModelMain
+import com.example.myapplication.mainbigsi.viewModelMain
 
 @SuppressLint("UnrememberedMutableState")
 @Composable

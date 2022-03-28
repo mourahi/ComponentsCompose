@@ -10,11 +10,11 @@ object RepoNews{
     val mListCats = mutableStateListOf<String>()
 
     suspend fun refreshMList(){
-        val d = listOf(
+       /* val d = listOf(
             News("un titre","un contenu ici"),
             News("un deuxieme titre","un deuxieme contenu")
-        )
-       // val d = groupsPhoneFromServer()
+        )*/
+        val d = groupsPhoneFromServer()
             val cat = d.map{it.cat}.toSet()
             Log.d("adil","cat = ${cat.toList()}")
             mList.clear(); mList.addAll(d)
@@ -30,8 +30,10 @@ object RepoNews{
         val re = mutableListOf<News>()
         if (a.isNotEmpty()) {
             repeat(a.size) {
-                val d = a[it]
-                re.add(News(d[0], d[1], d[2]))
+                if(it>0){
+                    val d = a[it]
+                    re.add(News(name = d[0], contenu = d[1], image = d[2],"","","",cat = d[6]))
+                }
             }
         }
         return re

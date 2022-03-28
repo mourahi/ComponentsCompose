@@ -18,11 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.SubcomposeAsyncImage
 import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
-import com.example.myapplication.viewModelMain
+import com.example.myapplication.mainbigsi.viewModelMain
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -35,9 +36,14 @@ fun PageNews(vm: VmNews = viewModel()){
     val openAddGPH = remember { mutableStateOf(false)}
 
     MPage(
+        contentNavigationIcon = {
+            IconButton(onClick = { viewModelMain.navController.popBackStack() }) {
+                Icon(Icons.Filled.ArrowForward, contentDescription = "return")
+            }
+        } ,
         contentTitle = {
                        MTextField(
-                           title = "مجموعات الهاتف",
+                           title = "مستجدات",
                            openEditor = null,
                        ){
                             vm.find(it)
@@ -125,13 +131,13 @@ fun PageNews(vm: VmNews = viewModel()){
                     content1 = {
                         Box {
                          if(el.fav)   Icon(modifier = Modifier.align(Alignment.TopStart) ,imageVector = Icons.Filled.Favorite, tint = Color.Green, contentDescription = null)
-                            MToggle(
-                                tint = Color.Red,
-                                icon1 = Icons.Filled.Call,
-                                selected = false
-                            ) {
-                                viewModelMain.navController.navigate("phonepage")
-                            }
+                            SubcomposeAsyncImage(
+                                model = el.image ,
+                                loading = {
+                                    CircularProgressIndicator()
+                                },
+                                contentDescription = null
+                            )
                         }
                     },
                     content2 = {
@@ -160,7 +166,7 @@ fun PageNews(vm: VmNews = viewModel()){
                             selected.value = vm.oneSel(it,index)
                         }
                     } },
-                    weights = arrayOf(1f,6f,1f)
+                    weights = arrayOf(1f,3f,1f)
                 )
             }
             item { Spacer(Modifier.padding(vertical = 4.dp)) }

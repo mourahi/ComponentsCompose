@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.mainbigsi
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     viewModelMain = viewModel()
                     viewModelMain.navController = rememberNavController()
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl ) {
-                         BigSI()
+                        BigSI()
                     }
                 }
             }
@@ -46,7 +46,7 @@ private fun BigSI() {
         composable("mpageform"){ MPageForm() } // a supprimer
         composable("phonepage"){ PagePh() }
         composable("phonepageserver"){ PageGPhServer() }
-        composable("newspage"){ PageNews() }
+        composable("pagenews"){ PageNews() }
     }
 }
 

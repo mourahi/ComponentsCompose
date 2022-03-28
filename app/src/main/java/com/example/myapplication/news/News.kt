@@ -4,11 +4,11 @@ class News(
     var idNews:Int,
     var name:String, // titre
     var contenu:String, // region
-    var cat:String,
     var image:String,
     var datapub:String,
     var lien: String,
     var type:String,
+    var cat:String,
     var fav:Boolean,
     var sel:Boolean
     ){
