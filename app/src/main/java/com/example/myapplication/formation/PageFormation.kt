@@ -1,21 +1,24 @@
-package com.example.myapplication.phones
+package com.example.myapplication.formation
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.SubcomposeAsyncImage
 import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
@@ -24,7 +27,7 @@ import com.example.myapplication.mainbigsi.viewModelMain
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun PagePh(vm: VmPh = viewModel()){
+fun PageFormation(vm: VmFormation = viewModel()){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }
@@ -37,10 +40,10 @@ fun PagePh(vm: VmPh = viewModel()){
             IconButton(onClick = { viewModelMain.navController.popBackStack() }) {
                 Icon(Icons.Filled.ArrowForward, contentDescription = "return")
             }
-        },
+        } ,
         contentTitle = {
                        MTextField(
-                           title = "هواتف",
+                           title = "مستجدات",
                            openEditor = null,
                        ){
                             vm.find(it)
@@ -51,7 +54,9 @@ fun PagePh(vm: VmPh = viewModel()){
                              Icon(Icons.Filled.MoreVert, contentDescription ="more", tint = Color.White )
                          }
                          MoreMenu(openedMenu =openedMenu , listMenu = listOf(
-                             ItemMenu(" تحميل",Icons.Outlined.Cloud,null,null),
+                             ItemMenu(" تحميل",Icons.Outlined.Cloud,null,){
+                                 viewModelMain.navController.navigate("phonepageserver")
+                             },
                              ItemMenu(" مجموعة", Icons.Filled.Add, null){
                                                  openAddGPH.value = true
                              },
@@ -106,9 +111,67 @@ fun PagePh(vm: VmPh = viewModel()){
             }
         }
     ) {
-            MCardPhones(mList = vm.mList,selected,fav,expandOperations,
-                oneFav = { it,index-> vm.oneFav(it,index) },
-            oneSel = { it,index -> vm.oneSel(it,index) })
+        //debut
+        val indexExpanded = remember { mutableStateOf(-1) }
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 5.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp)
+        ) {
+            itemsIndexed(vm.mList) { index, el ->
+                Log.d("adil","ici = el.sel = ${el.sel}")
+                MCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(2.dp, Color.Blue)
+                        .padding(5.dp),
+                    indexExpanded = indexExpanded,
+                    index = index,
+                    content1 = {
+                        Box {
+                         if(el.fav)   Icon(modifier = Modifier.align(Alignment.TopStart) ,imageVector = Icons.Filled.Favorite, tint = Color.Green, contentDescription = null)
+                            SubcomposeAsyncImage(
+                                model = el.image ,
+                                loading = {
+                                    CircularProgressIndicator()
+                                },
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    content2 = {
+                        Column(Modifier.fillMaxWidth()) {
+                            Text(text = el.name) // name = dp
+                            Text(text = el.contenu)  // region
+                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                        }
+                    },
+                    contentSub2 = {
+                        Surface(Modifier.fillMaxWidth()) { MToggles(listCToggles = listOf(
+                            CToggle(Icons.Filled.Sms,null,null,null) {},
+                            CToggle(Icons.Filled.Place ,null,null,null) {},
+                            CToggle(Icons.Filled.FavoriteBorder,Icons.Filled.Favorite,el.fav,null) {
+                                fav.value = vm.oneFav(it,index)
+                            },
+                            )) }
+                    },
+                    content3 =if(!expandOperations.value) null else  {  {
+                        MToggle(
+                        icon1 = Icons.Filled.CheckBoxOutlineBlank,
+                        icon2 = Icons.Filled.CheckBox,
+                        selected = el.sel,
+                            txt = null
+                    ) {
+                            selected.value = vm.oneSel(it,index)
+                        }
+                    } },
+                    weights = arrayOf(1f,3f,1f)
+                )
+            }
+            item { Spacer(Modifier.padding(vertical = 4.dp)) }
+        }
+        //fin
     }
 
     if(openAddGPH.value) AlertDialog(
@@ -135,4 +198,3 @@ fun PagePh(vm: VmPh = viewModel()){
         buttons = {}
             )
 }
-

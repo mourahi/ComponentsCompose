@@ -1,0 +1,27 @@
+package com.example.myapplication.formation
+
+class Formation(
+    var idFormation:Int,
+    var name:String, // titre
+    var contenu:String, //
+    var image:String,
+    var datapub:String,
+    var lien: String,
+    var type:String,
+    var cat:String,
+    var fav:Boolean,
+    var sel:Boolean
+    ){
+    constructor(
+         name:String="", // dp
+         contenu:String="", // region
+         image:String="",
+         datapub:String="",
+         lien: String="",
+         type:String="",
+         cat:String="",
+         fav:Boolean=false,
+         sel:Boolean=false
+    ) :
+            this(0,name,contenu, image, datapub,lien,type,cat,fav,sel)
+}

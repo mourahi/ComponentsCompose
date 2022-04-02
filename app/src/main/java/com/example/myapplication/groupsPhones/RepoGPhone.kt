@@ -10,11 +10,11 @@ object RepoGPhone{
     val mListCats = mutableStateListOf<String>()
 
     suspend fun refreshMList(){
-        val d = listOf(
+       /* val d = listOf(
             GPhone("DP-SAFI","MARRAKECH-SAFI","", official = false, fav = false),
             GPhone("DP-KALAA-SRAGHNA","MARRAKECH-SAFI","", official = false, fav = false)
-        )
-       // val d = groupsPhoneFromServer()
+        )*/
+        val d = groupsPhoneFromServer()
             val cat = d.map{it.cat}.toSet()
             Log.d("adil","cat = ${cat.toList()}")
             mList.clear(); mList.addAll(d)

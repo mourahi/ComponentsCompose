@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -107,67 +108,9 @@ fun PageGPh(vm: VmGPh = viewModel()){
             }
         }
     ) {
-        //debut
-        val indexExpanded = remember { mutableStateOf(-1) }
-        LazyColumn(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 5.dp),
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            itemsIndexed(vm.mList) { index, el ->
-                Log.d("adil","ici = el.sel = ${el.sel}")
-                MCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(2.dp, Color.Blue)
-                        .padding(5.dp),
-                    indexExpanded = indexExpanded,
-                    index = index,
-                    content1 = {
-                        Box {
-                         if(el.fav)   Icon(modifier = Modifier.align(Alignment.TopStart) ,imageVector = Icons.Filled.Favorite, tint = Color.Green, contentDescription = null)
-                            MToggle(
-                                tint = Color.Red,
-                                icon1 = Icons.Filled.Call,
-                                selected = false
-                            ) {
-                                viewModelMain.navController.navigate("phonepage")
-                            }
-                        }
-                    },
-                    content2 = {
-                        Column(Modifier.fillMaxWidth()) {
-                            Text(text = el.name) // name = dp
-                            Text(text = el.cat)  // region
-                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                        }
-                    },
-                    contentSub2 = {
-                        Surface(Modifier.fillMaxWidth()) { MToggles(listCToggles = listOf(
-                            CToggle(Icons.Filled.Sms,null,null,null) {},
-                            CToggle(Icons.Filled.Place ,null,null,null) {},
-                            CToggle(Icons.Filled.FavoriteBorder,Icons.Filled.Favorite,el.fav,null) {
-                                fav.value = vm.oneFav(it,index)
-                            },
-                            )) }
-                    },
-                    content3 =if(!expandOperations.value) null else  {  {
-                        MToggle(
-                        icon1 = Icons.Filled.CheckBoxOutlineBlank,
-                        icon2 = Icons.Filled.CheckBox,
-                        selected = el.sel,
-                            txt = null
-                    ) {
-                            selected.value = vm.oneSel(it,index)
-                        }
-                    } },
-                    weights = arrayOf(1f,6f,1f)
-                )
-            }
-            item { Spacer(Modifier.padding(vertical = 4.dp)) }
-        }
-        //fin
+            MCardsGPhone(mList = vm.mList,selected,fav,expandOperations,
+                oneFav = { it,index-> vm.oneFav(it,index) },
+                oneSel = { it,index -> vm.oneSel(it,index) })
     }
 
     if(openAddGPH.value) AlertDialog(
@@ -194,3 +137,4 @@ fun PageGPh(vm: VmGPh = viewModel()){
         buttons = {}
             )
 }
+

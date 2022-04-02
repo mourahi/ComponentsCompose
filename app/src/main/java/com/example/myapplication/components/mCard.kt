@@ -14,7 +14,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -66,18 +65,5 @@ fun MCard(
                 content3()
             }
         }
-    }
-}
-
-@Composable
-fun MCardContent2(title:String,subTitle:String?){
-
-
-}
-
-@Composable
-fun MCardContent1(modifier:Modifier=Modifier, tint:Color= Color.Black, ic:ImageVector,onClick: (b:Boolean) -> Unit){
-    MToggle(modifier,tint, icon1 = ic, selected = false) {
-        onClick(it)
     }
 }
