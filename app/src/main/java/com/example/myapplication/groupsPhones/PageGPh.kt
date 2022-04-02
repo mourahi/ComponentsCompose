@@ -2,19 +2,16 @@ package com.example.myapplication.groupsPhones
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -36,6 +33,11 @@ fun PageGPh(vm: VmGPh = viewModel()){
     val openAddGPH = remember { mutableStateOf(false)}
 
     MPage(
+        contentNavigationIcon = {
+            IconButton(onClick = { viewModelMain.navController.popBackStack() }) {
+                Icon(Icons.Filled.ArrowForward, contentDescription = "return")
+            }
+        },
         contentTitle = {
                        MTextField(
                            title = "مجموعات الهاتف",
