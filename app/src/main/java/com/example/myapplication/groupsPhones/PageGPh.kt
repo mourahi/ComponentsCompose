@@ -20,11 +20,11 @@ import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
-import com.example.myapplication.mainbigsi.viewModelMain
+import com.example.myapplication.mainbigsi.MainViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun PageGPh(vm: VmGPh = viewModel()){
+fun PageGPh(vm: VmGPh = viewModel(),viewModelMain: MainViewModel){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }
@@ -33,11 +33,6 @@ fun PageGPh(vm: VmGPh = viewModel()){
     val openAddGPH = remember { mutableStateOf(false)}
 
     MPage(
-        contentNavigationIcon = {
-            IconButton(onClick = { viewModelMain.navController.popBackStack() }) {
-                Icon(Icons.Filled.ArrowForward, contentDescription = "return")
-            }
-        },
         contentTitle = {
                        MTextField(
                            title = "مجموعات الهاتف",

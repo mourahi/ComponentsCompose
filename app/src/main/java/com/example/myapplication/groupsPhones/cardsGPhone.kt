@@ -18,11 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.components.CToggle
 import com.example.myapplication.components.MCard
 import com.example.myapplication.components.MToggle
 import com.example.myapplication.components.MToggles
-import com.example.myapplication.mainbigsi.viewModelMain
+import com.example.myapplication.mainbigsi.MainViewModel
 
 @Composable
 fun MCardsGPhone(mList:List<GPhone>, selected: MutableState<Boolean>,
@@ -32,6 +33,7 @@ fun MCardsGPhone(mList:List<GPhone>, selected: MutableState<Boolean>,
                  oneSel:(Boolean,Int)->Boolean){
     //debut
     val indexExpanded = remember { mutableStateOf(-1) }
+    val viewModelMain:MainViewModel = viewModel()
     LazyColumn(
         Modifier
             .fillMaxSize()

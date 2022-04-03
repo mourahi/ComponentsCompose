@@ -1,5 +1,6 @@
 package com.example.myapplication.mainbigsi
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +11,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,17 +23,14 @@ import com.example.myapplication.news.PageNews
 import com.example.myapplication.phones.PagePh
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
-lateinit var viewModelMain: MainViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyApplicationTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    viewModelMain = viewModel()
-                    viewModelMain.navController = rememberNavController()
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl ) {
-                        BigSI()
+                        BigSI(application)
                     }
                 }
             }
@@ -42,15 +39,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun BigSI() {
+private fun BigSI(application: Application) {
+    val viewModelMain = MainViewModel(application)
+    viewModelMain.navController = rememberNavController()
     NavHost(navController = viewModelMain.navController , startDestination = "homepage"){
-       composable("gphpage"){ PageGPh() }
+        composable("homepage"){ HomePage(viewModelMain) }
+        composable("gphpage"){ PageGPh(viewModelMain = viewModelMain) }
         composable("mpageform"){ MPageForm() } // a supprimer
-        composable("phonepage"){ PagePh() }
-        composable("phonepageserver"){ PageGPhServer() }
-        composable("pagenews"){ PageNews() }
-        composable("pageformation"){ PageFormation() }
-        composable("homepage"){ HomePage() }
+        composable("phonepage"){ PagePh(viewModelMain = viewModelMain) }
+        composable("phonepageserver"){ PageGPhServer(viewModelMain = viewModelMain) }
+        composable("pagenews"){ PageNews(viewModelMain = viewModelMain) }
+        composable("pageformation"){ PageFormation(viewModelMain = viewModelMain) }
     }
 }
 

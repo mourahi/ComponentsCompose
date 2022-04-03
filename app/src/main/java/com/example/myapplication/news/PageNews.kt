@@ -23,11 +23,11 @@ import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
-import com.example.myapplication.mainbigsi.viewModelMain
+import com.example.myapplication.mainbigsi.MainViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun PageNews(vm: VmNews = viewModel()){
+fun PageNews(vm: VmNews = viewModel(),viewModelMain: MainViewModel){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }

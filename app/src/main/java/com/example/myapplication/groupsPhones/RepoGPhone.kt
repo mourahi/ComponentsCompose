@@ -4,27 +4,25 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import com.example.myapplication.database.ApiSheet
 
-object RepoGPhone{
+object RepoGPhone {
     private const val linkToAllGPhone = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
+    lateinit var myDao: GroupsPhoneDao
+
     val mList = mutableStateListOf<GPhone>()
     val mListCats = mutableStateListOf<String>()
 
-    suspend fun refreshMList(){
-       /* val d = listOf(
-            GPhone("DP-SAFI","MARRAKECH-SAFI","", official = false, fav = false),
-            GPhone("DP-KALAA-SRAGHNA","MARRAKECH-SAFI","", official = false, fav = false)
-        )*/
-        val d = groupsPhoneFromServer()
-            val cat = d.map{it.cat}.toSet()
-            Log.d("adil","cat = ${cat.toList()}")
+    fun refreshMList() {
+        myDao.getAll().observeForever {
+            val d = it ?: listOf()
+            val cat = d.map { x -> x.cat }.toSet()
+            Log.d("adil", "cat = ${cat.toList()}")
             mList.clear(); mList.addAll(d)
             mListCats.clear(); mListCats.addAll(cat)
-
-
+        }
     }
 
     // en cours de préparation
-    private suspend fun groupsPhoneFromServer(): List<GPhone> {
+    private suspend fun getDataFromServer(): List<GPhone> {
         val a = ApiSheet.request(id = linkToAllGPhone, "groupe")
         //Log.d("adil","a=$a")
         val re = mutableListOf<GPhone>()

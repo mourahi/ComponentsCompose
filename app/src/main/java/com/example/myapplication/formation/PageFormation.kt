@@ -23,18 +23,17 @@ import com.example.myapplication.components.*
 import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
-import com.example.myapplication.mainbigsi.viewModelMain
+import com.example.myapplication.mainbigsi.MainViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun PageFormation(vm: VmFormation = viewModel()){
+fun PageFormation(vm: VmFormation = viewModel(),viewModelMain:MainViewModel){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }
     val selected = remember { mutableStateOf(false)}
     val fav = remember { mutableStateOf(false)}
     val openAddGPH = remember { mutableStateOf(false)}
-
     MPage(
         contentNavigationIcon = {
             IconButton(onClick = { viewModelMain.navController.popBackStack() }) {

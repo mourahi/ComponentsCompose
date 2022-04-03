@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -22,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.components.MTab
 import com.example.myapplication.groupsPhones.MCardsGPhone
-import com.example.myapplication.mainbigsi.viewModelMain
+import com.example.myapplication.mainbigsi.MainViewModel
 import com.example.myapplication.phones.MCardPhones
 import com.example.myapplication.ui.theme.myPadding
 
 @Composable
-fun HomePage(){
+fun HomePage(viewModelMain:MainViewModel){
     val tabIndex = rememberSaveable { mutableStateOf(0) }
     val colla = rememberSaveable { mutableStateOf(-1) }
     val mu = remember { mutableStateOf(false) }
@@ -38,7 +36,7 @@ fun HomePage(){
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()) {
             Text(text = "BigSI", fontSize = 30.sp)
-            MainBox()
+            MainBox(viewModelMain)
             Row(verticalAlignment = Alignment.CenterVertically){
                 Icon(Icons.Filled.Favorite, contentDescription = null, tint = Color.Black)
                 Text(
@@ -76,40 +74,7 @@ fun HomePage(){
 }
 
 @Composable
-fun FavPhones(){
-    Text(text = viewModelMain.mListFavPhone.size.toString())
-}
-
-@Composable
-fun FavGPhones(){
-    Text(text = viewModelMain.mListFavGPhone.size.toString())
-}
-
-@Composable
-private fun MainFavorisCard(){
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = myPadding, start = myPadding, end = myPadding),
-        elevation = myPadding
-    ) {
-        Row(
-            Modifier
-                .fillMaxSize()
-                .padding(myPadding),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            Text(text = "un nom")
-            IconButton(onClick = {  }) {
-                Icon(Icons.Default.Favorite, contentDescription = "favoris" )
-            }
-        }
-    }
-}
-
-@Composable
-private fun MainBox() {
+private fun MainBox(viewModelMain:MainViewModel) {
     val h = 100.dp
     Column(Modifier.fillMaxWidth()) {
         //GroupsPHone
