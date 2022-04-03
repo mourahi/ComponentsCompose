@@ -23,6 +23,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
 
     init {
         viewModelScope.launch {
+            RepoPhone.myDao = myDB.myPhonesDao()
             RepoPhone.refreshMList()
         }
         viewModelScope.launch{

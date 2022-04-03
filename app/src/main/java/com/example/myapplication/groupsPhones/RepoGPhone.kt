@@ -11,14 +11,19 @@ object RepoGPhone {
     val mList = mutableStateListOf<GPhone>()
     val mListCats = mutableStateListOf<String>()
 
-    fun refreshMList() {
+    suspend fun refreshMList() {
         myDao.getAll().observeForever {
-            val d = it ?: listOf()
-            val cat = d.map { x -> x.cat }.toSet()
-            Log.d("adil", "cat = ${cat.toList()}")
-            mList.clear(); mList.addAll(d)
-            mListCats.clear(); mListCats.addAll(cat)
+            updateList(it)
         }
+
+    }
+
+    private fun updateList(l:List<GPhone>){
+        val d = l ?: listOf()
+        val cat = d.map { x -> x.cat }.toSet()
+        Log.d("adil", "cat = ${cat.toList()}")
+        mList.clear(); mList.addAll(d)
+        mListCats.clear(); mListCats.addAll(cat)
     }
 
     // en cours de préparation

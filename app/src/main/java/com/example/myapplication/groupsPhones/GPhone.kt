@@ -21,4 +21,10 @@ class GPhone(
 interface GroupsPhoneDao {
     @Query("SELECT * FROM groups_phone")
     fun getAll(): LiveData<List<GPhone>>
+
+    @Insert
+    suspend fun insert(gh:GPhone)
+
+    @Query("DELETE FROM groups_phone WHERE link = :link")
+    suspend fun delete(link:String)
 }

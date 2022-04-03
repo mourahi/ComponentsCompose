@@ -44,9 +44,11 @@ class VmGPhServer:ViewModel() {
         RepoGPhoneServer.mList.addAll(t)
     }
     fun oneSel(b:Boolean,index:Int): Boolean{
-        val t = RepoGPhoneServer.mList.toList(); RepoGPhoneServer.mList.clear()
+        val t = mList.toList(); mList.clear()
         val v = t[index]
-        v.sel = b ; RepoGPhoneServer.mList.addAll(t)
+        v.sel = b ;
+        viewModelScope.launch {  RepoGPhoneServer.insert(gh = v , add= b) }
+        mList.addAll(t)
         if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
         return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
     }

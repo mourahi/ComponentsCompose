@@ -3,17 +3,20 @@ package com.example.myapplication.gPhServer
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -125,44 +128,27 @@ fun PageGPhServer(vm: VmGPhServer = viewModel(),viewModelMain:MainViewModel){
                         .padding(5.dp),
                     indexExpanded = indexExpanded,
                     index = index,
-                    content1 = {
-                        Box {
-                         if(el.fav)   Icon(modifier = Modifier.align(Alignment.TopStart) ,imageVector = Icons.Filled.Favorite, tint = Color.Green, contentDescription = null)
-                            MToggle(
-                                tint = Color.Red,
-                                icon1 = Icons.Filled.Call,
-                                selected = false
-                            ) {
-                                viewModelMain.navController.navigate("phonepage")
-                            }
-                        }
-                    },
+                    content1 = null,
                     content2 = {
-                        Column(Modifier.fillMaxWidth()) {
-                            Text(text = el.name) // name = dp
+                        Column(Modifier.fillMaxWidth().clickable {
+                            viewModelMain.navController.navigate("phonepage")
+                        }) {
+                            Text(text = el.name +" / " + el.sel.toString()) // name = dp
                             Text(text = el.cat)  // region
                             Spacer(modifier = Modifier.padding(vertical = 5.dp))
                         }
                     },
-                    contentSub2 = {
-                        Surface(Modifier.fillMaxWidth()) { MToggles(listCToggles = listOf(
-                            CToggle(Icons.Filled.Sms,null,null,null) {},
-                            CToggle(Icons.Filled.Place ,null,null,null) {},
-                            CToggle(Icons.Filled.FavoriteBorder,Icons.Filled.Favorite,el.fav,null) {
-                                fav.value = vm.oneFav(it,index)
-                            },
-                            )) }
-                    },
-                    content3 =if(!expandOperations.value) null else  {  {
+                    contentSub2 = null,
+                    content3 ={
                         MToggle(
-                        icon1 = Icons.Filled.CheckBoxOutlineBlank,
-                        icon2 = Icons.Filled.CheckBox,
+                        icon1 = Icons.Filled.SaveAlt,
+                        icon2 = Icons.Filled.Done,
                         selected = el.sel,
                             txt = null
                     ) {
                             selected.value = vm.oneSel(it,index)
                         }
-                    } },
+                    } ,
                     weights = arrayOf(1f,6f,1f)
                 )
             }

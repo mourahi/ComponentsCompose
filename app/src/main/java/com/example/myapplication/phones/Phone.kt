@@ -1,22 +1,27 @@
 package com.example.myapplication.phones
+
+import androidx.lifecycle.LiveData
+import androidx.room.*
+
 /*cycle	commune	gresa	ecole	nom
 tel	fonction	email	geo	role */
 
+@Entity(tableName = "phones")
 class Phone(
-    var idPhone: Int,
-    var name: String, // ecole 3
-    var cat: String, // cycle 0
-    var subcat: String, //commune 1
-    var gresa: String, //2
-    var tel: String, //5
-    var person: String, //nom 4
-    var fonction: String, // 6
-    var email: String, //7
-    var geo: String, // 8
-    var refGroup: Int,
-    var fav: Boolean,
+    @PrimaryKey(autoGenerate = true) var idPhone: Int,
+    @ColumnInfo var name: String, // ecole 3
+    @ColumnInfo var cat: String, // cycle 0
+    @ColumnInfo var subcat: String, //commune 1
+    @ColumnInfo var gresa: String, //2
+    @ColumnInfo var tel: String, //5
+    @ColumnInfo var person: String, //nom 4
+    @ColumnInfo var fonction: String, // 6
+    @ColumnInfo var email: String, //7
+    @ColumnInfo var geo: String, // 8
+    @ColumnInfo var refGroup: Int,
+    @ColumnInfo var fav: Boolean,
     var sel: Boolean,
-    var role:String, //9
+    @ColumnInfo var role:String, //9
 ) {
     constructor(
         name: String = "", // ecole
@@ -50,4 +55,10 @@ class Phone(
                 sel,
                 role
             )
+}
+
+@Dao
+interface PhonesDao {
+    @Query("SELECT * FROM phones")
+    fun getAll(): LiveData<List<Phone>>
 }

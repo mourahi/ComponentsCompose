@@ -41,22 +41,25 @@ fun MCard(
                         .weight(if (weights != null) weights[1] else 4f)
                         .border(1.dp, Color.Red))
                     {
-                        Surface(
-                            Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    indexExpanded.value = if(indexExpanded.value == index) -1 else index
 
-                                }){ content2() }
-                    AnimatedVisibility (
-                        visible = contentSub2 != null  &&  indexExpanded.value == index,
-                        enter = expandVertically(),
+                        if(contentSub2 != null)
+                        {
+                            Surface(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        indexExpanded.value =
+                                            if (indexExpanded.value == index) -1 else index
 
-                    ) {
-                        if (contentSub2 != null) {
-                            contentSub2()
+                                    }) { content2() }
+
+                            AnimatedVisibility(
+                                visible =  indexExpanded.value == index,
+                                enter = expandVertically(),
+                                ) { contentSub2() }
+                        }else {
+                            content2()
                         }
-                    }
                 }
 
             if(content3 != null ) Surface( modifier = Modifier
