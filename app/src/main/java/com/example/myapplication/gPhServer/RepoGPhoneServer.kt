@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import com.example.myapplication.database.ApiSheet
 import com.example.myapplication.groupsPhones.GPhone
 import com.example.myapplication.groupsPhones.RepoGPhone
+import com.example.myapplication.phones.RepoPhone
 
 object RepoGPhoneServer{
     private const val linkToAllGPhone = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
@@ -34,13 +35,23 @@ object RepoGPhoneServer{
         if (a.isNotEmpty()) {
             repeat(a.size) {
                 val d = a[it]
-                re.add(GPhone(d[0], d[1], d[2], true))
+                re.add(GPhone(name = d[0], cat = d[1], link = d[2], official = true))
             }
         }
         return re
     }
     //update ROOM
     suspend fun insert(gh:GPhone,add:Boolean){
-       if(add) RepoGPhone.myDao.insert(gh) else RepoGPhone.myDao.delete(gh.link)
+            if(add) {
+                val t = GPhone(name = gh.name,cat=gh.cat,link=gh.link, official = true)
+                Log.d("adil","idGPHONEDeprat  = ${gh.idGPhone}")
+                val i = RepoGPhone.myDao.insert(t).toInt()
+                gh.idGPhone = i
+                Log.d("adil","idGPHONEFin  = ${gh.idGPhone}")
+       }else {
+           RepoGPhone.myDao.delete(gh.link)
+       }
+        RepoPhone.activeGPhone = gh
+        RepoPhone.insertPhonesByGPh(add)
     }
 }

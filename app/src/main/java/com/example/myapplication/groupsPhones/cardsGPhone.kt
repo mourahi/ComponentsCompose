@@ -18,22 +18,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.components.CToggle
 import com.example.myapplication.components.MCard
 import com.example.myapplication.components.MToggle
 import com.example.myapplication.components.MToggles
 import com.example.myapplication.mainbigsi.MainViewModel
+import com.example.myapplication.phones.RepoPhone
 
 @Composable
-fun MCardsGPhone(mList:List<GPhone>, selected: MutableState<Boolean>,
+fun MCardsGPhone(viewModelMain:MainViewModel,
+                 mList:List<GPhone>,
+                 selected: MutableState<Boolean>,
                  fav: MutableState<Boolean>,
                  expandOperations: MutableState<Boolean>,
                  oneFav:(Boolean,Int)->Boolean,
                  oneSel:(Boolean,Int)->Boolean){
     //debut
     val indexExpanded = remember { mutableStateOf(-1) }
-    val viewModelMain:MainViewModel = viewModel()
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -57,6 +58,7 @@ fun MCardsGPhone(mList:List<GPhone>, selected: MutableState<Boolean>,
                             icon1 = Icons.Filled.Call,
                             selected = false
                         ) {
+                           RepoPhone.activeGPhone = el
                             viewModelMain.navController.navigate("phonepage")
                         }
                     }

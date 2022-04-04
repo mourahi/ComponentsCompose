@@ -26,6 +26,7 @@ import com.example.myapplication.components.mform.CAction
 import com.example.myapplication.components.mform.CTextFieldForm
 import com.example.myapplication.components.mform.MForm
 import com.example.myapplication.mainbigsi.MainViewModel
+import com.example.myapplication.phones.RepoPhone
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -131,6 +132,7 @@ fun PageGPhServer(vm: VmGPhServer = viewModel(),viewModelMain:MainViewModel){
                     content1 = null,
                     content2 = {
                         Column(Modifier.fillMaxWidth().clickable {
+                            RepoPhone.activeGPhone = el
                             viewModelMain.navController.navigate("phonepage")
                         }) {
                             Text(text = el.name +" / " + el.sel.toString()) // name = dp

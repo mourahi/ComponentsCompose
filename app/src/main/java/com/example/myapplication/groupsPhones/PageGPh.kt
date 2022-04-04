@@ -105,7 +105,8 @@ fun PageGPh(vm: VmGPh = viewModel(),viewModelMain: MainViewModel){
             }
         }
     ) {
-            MCardsGPhone(mList = vm.mList,selected,fav,expandOperations,
+            MCardsGPhone(viewModelMain = viewModelMain,
+                mList = vm.mList,selected,fav,expandOperations,
                 oneFav = { it,index-> vm.oneFav(it,index) },
                 oneSel = { it,index -> vm.oneSel(it,index) })
     }

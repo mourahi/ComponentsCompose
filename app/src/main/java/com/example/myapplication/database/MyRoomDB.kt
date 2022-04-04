@@ -26,7 +26,7 @@ abstract class MyRoomDB : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MyRoomDB::class.java,
-                    "bigsi-teste-v04"
+                    "bigsi-teste-v15"
                 ).build()
                 INSTANCE = instance
                 instance

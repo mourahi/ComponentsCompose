@@ -52,7 +52,7 @@ fun HomePage(viewModelMain:MainViewModel){
             MTab(tabData,tabIndex)
 
                 if (tabIndex.value == 0) {
-                    MCardsGPhone(
+                    MCardsGPhone(viewModelMain=viewModelMain,
                         mList = viewModelMain.mListFavGPhone,
                         selected = selectedFavPhone,
                         fav = favFavPhone,

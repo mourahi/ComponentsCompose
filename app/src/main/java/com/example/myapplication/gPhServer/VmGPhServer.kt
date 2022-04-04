@@ -47,7 +47,9 @@ class VmGPhServer:ViewModel() {
         val t = mList.toList(); mList.clear()
         val v = t[index]
         v.sel = b ;
-        viewModelScope.launch {  RepoGPhoneServer.insert(gh = v , add= b) }
+        viewModelScope.launch {
+            Log.d("adil","demarrage ici id=${v.idGPhone}")
+            RepoGPhoneServer.insert(gh = v , add= b) }
         mList.addAll(t)
         if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
         return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
