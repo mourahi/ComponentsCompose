@@ -8,7 +8,7 @@ tel	fonction	email	geo	role */
 
 @Entity(tableName = "phones")
 class Phone(
-    @PrimaryKey(autoGenerate = true) var idPhone: Int?,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo var idPhone: Int?,
     @ColumnInfo var name: String, // ecole 3
     @ColumnInfo var cat: String, // cycle 0
     @ColumnInfo var subcat: String, //commune 1
@@ -59,8 +59,8 @@ class Phone(
 
 @Dao
 interface PhonesDao {
-    @Query("SELECT * FROM phones")
-    fun getAll(): LiveData<List<Phone>>
+    @Query("SELECT * FROM phones WHERE refGroup = :idGPhone" )
+    fun getAll(idGPhone: Int): LiveData<List<Phone>>
 
     @Insert
     suspend fun insertList(phs:List<Phone>)

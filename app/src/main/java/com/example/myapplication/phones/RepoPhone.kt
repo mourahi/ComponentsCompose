@@ -14,10 +14,12 @@ object RepoPhone{
 
     suspend fun refreshMList() {
             Log.d("adil","active id=${activeGPhone.idGPhone} link=${activeGPhone.link}")
-            if (activeGPhone.idGPhone != null) {
-                myDao.getAll().observeForever {
-                    updateList(it)
-                }
+                val i = activeGPhone.idGPhone
+                if (i != null) {
+                    myDao.getAll(i).observeForever {
+                        updateList(it)
+                    }
+
             } else if ( activeGPhone.link.length > 5) {
                 val l = getDataFromServer()
                 updateList(l)
