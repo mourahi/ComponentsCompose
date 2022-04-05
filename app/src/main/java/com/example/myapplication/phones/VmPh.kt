@@ -1,22 +1,20 @@
 package com.example.myapplication.phones
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class VmPh:ViewModel() {
-    private val mListInitial = mutableListOf<Phone>()
+    private val mListInitial = RepoPhone.mListInitial
     val mList = RepoPhone.mList
 
-    val mListCats = mutableStateListOf<String>()
+    val mListCats = RepoPhone.mListCats
     val mListCatsSelected = mutableListOf<String>()
     init {
         viewModelScope.launch {
+            mListInitial.clear()
             RepoPhone.refreshMList()
-            mListInitial.clear() ; mListInitial.addAll(mList)
-            mListCats.clear();mListCats.addAll(RepoPhone.mListCats)
         }
     }
 
@@ -70,6 +68,7 @@ class VmPh:ViewModel() {
       return  if(mListCatsSelected.size> 0) mListCatsSelected.size.toString() else ""
     }
     fun find(s:String?=null){
+        Log.d("adil","mListSelected = ${mListCatsSelected.toList()} mListInitial = $mListInitial")
         var t =if(mListCatsSelected.isNotEmpty())  mListInitial.filter { it.cat in mListCatsSelected }.toList() else mListInitial.toList()
        t= if(s != null) t.filter { it.name.contains(s,ignoreCase = true) } else t
         RepoPhone.mList.clear() ; RepoPhone.mList.addAll(t)

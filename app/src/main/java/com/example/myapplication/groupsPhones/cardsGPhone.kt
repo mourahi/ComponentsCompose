@@ -1,6 +1,5 @@
 package com.example.myapplication.groupsPhones
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,7 +30,7 @@ fun MCardsGPhone(viewModelMain:MainViewModel,
                  selected: MutableState<Boolean>,
                  fav: MutableState<Boolean>,
                  expandOperations: MutableState<Boolean>,
-                 oneFav:(Boolean,Int)->Boolean,
+                 oneFav:(Boolean,Int)->Unit,
                  oneSel:(Boolean,Int)->Boolean){
     //debut
     val indexExpanded = remember { mutableStateOf(-1) }
@@ -42,7 +41,7 @@ fun MCardsGPhone(viewModelMain:MainViewModel,
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         itemsIndexed(mList) { index, el ->
-            Log.d("adil","ici = el.sel = ${el.sel}")
+            //Log.d("adil","ici = el.sel = ${el.sel}")
             MCard(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -75,7 +74,7 @@ fun MCardsGPhone(viewModelMain:MainViewModel,
                         CToggle(Icons.Filled.Sms,null,null,null) {},
                         CToggle(Icons.Filled.Place ,null,null,null) {},
                         CToggle(Icons.Filled.FavoriteBorder, Icons.Filled.Favorite,el.fav,null) {
-                            fav.value = oneFav(it,index)
+                            oneFav(it,index)
                         },
                     )) }
                 },

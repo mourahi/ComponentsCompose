@@ -9,6 +9,7 @@ object RepoPhone{
     private const val linkGPh = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
     lateinit var myDao: PhonesDao
     val mList = mutableStateListOf<Phone>()
+    val mListInitial = mutableStateListOf<Phone>()
     val mListCats = mutableStateListOf<String>()
     var activeGPhone: GPhone = GPhone("","")
 
@@ -28,9 +29,10 @@ object RepoPhone{
 
     private fun updateList(l:List<Phone>){
         val cat = l.map { x -> x.cat }.toSet()
-        Log.d("adil", "cat = ${cat.toList()}")
-        mList.clear(); mList.addAll(l)
-        mListCats.clear(); mListCats.addAll(cat)
+        Log.d("adil","cat phone = $cat")
+        mList.clear(); mListCats.clear()
+        mListCats.addAll(cat) ; mList.addAll(l)
+        mListInitial.clear() ; mListInitial.addAll(l)
     }
 
     // en cours de préparation

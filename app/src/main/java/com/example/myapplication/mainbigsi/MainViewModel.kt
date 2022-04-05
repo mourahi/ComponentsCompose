@@ -31,5 +31,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
             RepoGPhone.refreshMList()
         }
     }
+        // GPhone dans Favoris
+    fun oneFav(b:Boolean,index:Int){
+        val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
+        t[index].fav = b
+        viewModelScope.launch {  RepoGPhone.update(t[index]) }
+        //return  RepoGPhone.mList.size>0 && (RepoGPhone.mList.size == RepoGPhone.mList.filter { it.fav }.size)
+    }
 
 }

@@ -10,9 +10,11 @@ import com.example.myapplication.phones.RepoPhone
 object RepoGPhoneServer{
     private const val linkToAllGPhone = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
     val mList = mutableStateListOf<GPhone>()
+    val mListInitial = mutableStateListOf<GPhone>()
     val mListCats = mutableStateListOf<String>()
 
     suspend fun refreshMList(){
+        mListInitial.clear()
         val d = groupsPhoneFromServer()
             val cat = d.map{it.cat}.toSet()
         val temp = RepoGPhone.myDao.getAll().observeForever {
@@ -20,9 +22,11 @@ object RepoGPhoneServer{
             Log.d("adil", "exisitant =${existant.toList()}")
             d.forEach { xx->
                 xx.sel = xx.link in existant
+                if(xx.sel) xx.idGPhone = it.filter { z->z.link == xx.link }[0].idGPhone
             }
             mList.clear(); mList.addAll(d)
             mListCats.clear(); mListCats.addAll(cat)
+            mListInitial.addAll(d)
         }
 
     }
@@ -44,7 +48,6 @@ object RepoGPhoneServer{
     suspend fun insert(gh:GPhone,add:Boolean){
             if(add) {
                 val t = GPhone(name = gh.name,cat=gh.cat,link=gh.link, official = true)
-                Log.d("adil","idGPHONEDeprat  = ${gh.idGPhone}")
                 val i = RepoGPhone.myDao.insert(t).toInt()
                 gh.idGPhone = i
                 Log.d("adil","idGPHONEFin  = ${gh.idGPhone}")

@@ -4,20 +4,20 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.groupsPhones.GPhone
+import com.example.myapplication.groupsPhones.RepoGPhone
 import kotlinx.coroutines.launch
 
 class VmGPhServer:ViewModel() {
-    private val mListInitial = mutableListOf<GPhone>()
+    private val mListInitial = RepoGPhoneServer.mListInitial
     val mList = RepoGPhoneServer.mList
 
     val mListCats = mutableStateListOf<String>()
     val mListCatsSelected = mutableListOf<String>()
     init {
         viewModelScope.launch {
+            mListInitial.clear(); mListCats.clear()
             RepoGPhoneServer.refreshMList()
-            mListInitial.clear() ; mListInitial.addAll(mList)
-            mListCats.clear();mListCats.addAll(RepoGPhoneServer.mListCats)
+            mListCats.addAll(RepoGPhoneServer.mListCats)
         }
     }
 
@@ -50,14 +50,13 @@ class VmGPhServer:ViewModel() {
         viewModelScope.launch {
             Log.d("adil","demarrage ici id=${v.idGPhone}")
             RepoGPhoneServer.insert(gh = v , add= b) }
-        mList.addAll(t)
         if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
-        return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
+        return  mListCatsSelected.size == RepoGPhone.mList.size && mListCatsSelected.size>0
     }
-    fun oneFav(b:Boolean,index:Int):Boolean{
+    fun oneFav(b:Boolean,index:Int){
         val t = RepoGPhoneServer.mList.toList(); RepoGPhoneServer.mList.clear()
         t[index].fav = b ; RepoGPhoneServer.mList.addAll(t)
-        return  mList.size>0 && (mList.size == mList.filter { it.fav }.size)
+        //return  mList.size>0 && (mList.size == mList.filter { it.fav }.size)
     }
     fun getNbrFav():String{
         val nbrF = mList.filter { it.fav }.size

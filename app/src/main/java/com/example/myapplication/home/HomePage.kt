@@ -57,7 +57,7 @@ fun HomePage(viewModelMain:MainViewModel){
                         selected = selectedFavPhone,
                         fav = favFavPhone,
                         expandOperations = expandOperationsFavPhone,
-                        oneFav = { _, _ -> false },
+                        oneFav = { it,index-> viewModelMain.oneFav(it,index) },
                         oneSel = { _, _ -> false }
                     )
                 } else {
@@ -92,7 +92,7 @@ private fun MainBox(viewModelMain:MainViewModel) {
                         viewModelMain.navController.navigate("gphpage")
                     }
             ){
-                Text(text = "التواصل", fontSize = 30.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+                Text(text = "المجموعات", fontSize = 30.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
                 Icon(Icons.Filled.Phone, contentDescription = "", tint = Color.Yellow, modifier = Modifier.size(40.dp))
             }
             //News -------------------------------------------
@@ -125,7 +125,7 @@ private fun MainBox(viewModelMain:MainViewModel) {
 
                     }
             ){
-                Text(text = "التكوينات", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+                Text(text = "التكوينات", fontSize = 30.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
             }
             //FOrms -------------------------------------------
             Box(
@@ -137,7 +137,7 @@ private fun MainBox(viewModelMain:MainViewModel) {
 
                     }
             ){
-                Text(text = "اسثمارات", fontSize = 20.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
+                Text(text = "اسثمارات", fontSize = 30.sp, modifier = Modifier.align(Alignment.Center), color = Color.White)
             }
         }
     }

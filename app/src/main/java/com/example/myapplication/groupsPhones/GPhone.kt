@@ -27,4 +27,7 @@ interface GroupsPhoneDao {
 
     @Query("DELETE FROM groups_phone WHERE link = :link")
     suspend fun delete(link:String)
+
+    @Update
+    suspend fun update(gh: GPhone)
 }

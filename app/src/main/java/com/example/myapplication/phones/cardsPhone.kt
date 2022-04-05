@@ -1,6 +1,5 @@
 package com.example.myapplication.phones
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -39,7 +38,7 @@ fun MCardPhones(mList:List<Phone>, selected: MutableState<Boolean>,
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         itemsIndexed(mList) { index, el ->
-            Log.d("adil","ici = el.sel = ${el.sel}")
+            //Log.d("adil","ici = el.sel = ${el.sel}")
             MCard(
                 modifier = Modifier
                     .fillMaxWidth()

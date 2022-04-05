@@ -4,21 +4,19 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.mainbigsi.MainViewModel
 import kotlinx.coroutines.launch
 
 class VmGPh:ViewModel() {
-    private val mListInitial = mutableListOf<GPhone>()
+    private val mListInitial = RepoGPhone.mListInitial
     val mList = RepoGPhone.mList
 
     val mListCats = mutableStateListOf<String>()
     val mListCatsSelected = mutableListOf<String>()
     init {
         viewModelScope.launch {
+            mListInitial.clear(); mListCats.clear()
             RepoGPhone.refreshMList()
-            mListInitial.clear() ; mListInitial.addAll(mList)
-            mListCats.clear();mListCats.addAll(RepoGPhone.mListCats)
+            mListCats.addAll(RepoGPhone.mListCats)
         }
     }
 
@@ -34,7 +32,7 @@ class VmGPh:ViewModel() {
         RepoGPhone.mList.addAll(t)
     }
     fun allFav(){
-        val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
+        val t = RepoGPhone.mList.toList()
         RepoGPhone.mList.clear()
         val nbrFav  = t.filter { it.fav }.size
         val nbrSel = t.filter { it.sel }.size
@@ -51,10 +49,11 @@ class VmGPh:ViewModel() {
         if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
         return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
     }
-    fun oneFav(b:Boolean,index:Int):Boolean{
+    fun oneFav(b:Boolean,index:Int){
         val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
-        t[index].fav = b ; RepoGPhone.mList.addAll(t)
-        return  mList.size>0 && (mList.size == mList.filter { it.fav }.size)
+        t[index].fav = b
+       viewModelScope.launch {  RepoGPhone.update(t[index]) }
+        //return  RepoGPhone.mList.size>0 && (RepoGPhone.mList.size == RepoGPhone.mList.filter { it.fav }.size)
     }
     fun getNbrFav():String{
         val nbrF = mList.filter { it.fav }.size
