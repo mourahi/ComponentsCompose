@@ -30,7 +30,7 @@ fun MCardsGPhone(viewModelMain:MainViewModel,
                  selected: MutableState<Boolean>,
                  fav: MutableState<Boolean>,
                  expandOperations: MutableState<Boolean>,
-                 oneFav:(Boolean,Int)->Unit,
+                 oneFav:(GPhone)->Unit,
                  oneSel:(Boolean,Int)->Boolean){
     //debut
     val indexExpanded = remember { mutableStateOf(-1) }
@@ -74,7 +74,8 @@ fun MCardsGPhone(viewModelMain:MainViewModel,
                         CToggle(Icons.Filled.Sms,null,null,null) {},
                         CToggle(Icons.Filled.Place ,null,null,null) {},
                         CToggle(Icons.Filled.FavoriteBorder, Icons.Filled.Favorite,el.fav,null) {
-                            oneFav(it,index)
+                            el.fav = it
+                            oneFav(el)
                         },
                     )) }
                 },

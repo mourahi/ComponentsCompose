@@ -7,10 +7,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.myapplication.database.MyRoomDB
+import com.example.myapplication.groupsPhones.GPhone
 import com.example.myapplication.groupsPhones.RepoGPhone
 import com.example.myapplication.phones.RepoPhone
 import kotlinx.coroutines.launch
-
 
 class MainViewModel(application: Application) : AndroidViewModel(application){
     private val pm: PackageManager = application.packageManager
@@ -18,8 +18,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     private val myDB: MyRoomDB by lazy { MyRoomDB.myDB(application) }
 
     lateinit var navController: NavHostController
-    val mListFavPhone = RepoPhone.mList
-    val mListFavGPhone = RepoGPhone.mList
+    val mListFavPhone = RepoPhone.mList.filter { it.fav }
+    val mListFavGPhone = RepoGPhone.mList.filter { it.fav }
 
     init {
         viewModelScope.launch {
@@ -32,10 +32,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
         }
     }
         // GPhone dans Favoris
-    fun oneFav(b:Boolean,index:Int){
-        val t = RepoGPhone.mList.toList(); RepoGPhone.mList.clear()
-        t[index].fav = b
-        viewModelScope.launch {  RepoGPhone.update(t[index]) }
+    fun oneFav(gph:GPhone){
+        viewModelScope.launch {  RepoGPhone.update(gph) }
         //return  RepoGPhone.mList.size>0 && (RepoGPhone.mList.size == RepoGPhone.mList.filter { it.fav }.size)
     }
 
