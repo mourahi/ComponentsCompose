@@ -47,10 +47,9 @@ class VmPh:ViewModel() {
         if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
         return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
     }
-    fun oneFav(b:Boolean,index:Int):Boolean{
-        val t = RepoPhone.mList.toList(); RepoPhone.mList.clear()
-        t[index].fav = b ; RepoPhone.mList.addAll(t)
-        return  mList.size>0 && (mList.size == mList.filter { it.fav }.size)
+    fun oneFav(ph:Phone){
+       viewModelScope.launch { RepoPhone.update(ph) }
+
     }
     fun getNbrFav():String{
         val nbrF = mList.filter { it.fav }.size

@@ -26,7 +26,7 @@ import com.example.myapplication.components.MToggles
 fun MCardPhones(mList:List<Phone>, selected: MutableState<Boolean>,
                 fav: MutableState<Boolean>,
                 expandOperations: MutableState<Boolean>,
-                oneFav:(Boolean,Int)->Boolean,
+                oneFav:(Phone)->Unit,
                 oneSel:(Boolean,Int)->Boolean
 ){
     //debut
@@ -68,7 +68,8 @@ fun MCardPhones(mList:List<Phone>, selected: MutableState<Boolean>,
                         CToggle(Icons.Filled.Sms,null,null,null) {},
                         CToggle(Icons.Filled.Place ,null,null,null) {},
                         CToggle(Icons.Filled.FavoriteBorder, Icons.Filled.Favorite,el.fav,null) {
-                            fav.value = oneFav(it,index)
+                           el.fav = it
+                            oneFav(el)
                         },
                     )) }
                 },

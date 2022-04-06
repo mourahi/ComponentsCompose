@@ -108,7 +108,7 @@ fun PagePh(vm: VmPh = viewModel(),viewModelMain: MainViewModel){
         }
     ) {
             MCardPhones(mList = vm.mList,selected,fav,expandOperations,
-                oneFav = { it,index-> vm.oneFav(it,index) },
+                oneFav = {vm.oneFav(it) },
             oneSel = { it,index -> vm.oneSel(it,index) })
     }
 

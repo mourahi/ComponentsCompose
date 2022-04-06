@@ -66,7 +66,7 @@ fun HomePage(viewModelMain:MainViewModel){
                             selected = selectedFavPhone,
                             fav = favFavPhone,
                             expandOperations = expandOperationsFavPhone,
-                            oneFav = { _, _ -> false },
+                            oneFav = { viewModelMain.oneFavPhone(it) },
                             oneSel = { _, _ -> false }
                         )
                 }

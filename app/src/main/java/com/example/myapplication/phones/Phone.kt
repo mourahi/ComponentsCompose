@@ -1,7 +1,7 @@
 package com.example.myapplication.phones
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 /*cycle	commune	gresa	ecole	nom
 tel	fonction	email	geo	role */
@@ -60,11 +60,14 @@ class Phone(
 @Dao
 interface PhonesDao {
     @Query("SELECT * FROM phones WHERE refGroup = :idGPhone" )
-    fun getAll(idGPhone: Int): LiveData<List<Phone>>
+    fun getAll(idGPhone: Int): Flow<List<Phone>>
 
     @Insert
     suspend fun insertList(phs:List<Phone>)
 
     @Query("DELETE FROM phones WHERE refGroup = :refGroup")
     suspend fun delete(refGroup:Int)
+
+    @Update
+    suspend fun update(ph:Phone)
 }

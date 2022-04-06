@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import com.example.myapplication.database.MyRoomDB
 import com.example.myapplication.groupsPhones.GPhone
 import com.example.myapplication.groupsPhones.RepoGPhone
+import com.example.myapplication.phones.Phone
 import com.example.myapplication.phones.RepoPhone
 import kotlinx.coroutines.launch
 
@@ -35,6 +36,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     fun oneFav(gph:GPhone){
         viewModelScope.launch {  RepoGPhone.update(gph) }
         //return  RepoGPhone.mList.size>0 && (RepoGPhone.mList.size == RepoGPhone.mList.filter { it.fav }.size)
+    }
+    fun oneFavPhone(ph:Phone){
+        viewModelScope.launch {  RepoPhone.update(ph) }
     }
 
 }

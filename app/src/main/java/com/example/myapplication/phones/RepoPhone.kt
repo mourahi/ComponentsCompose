@@ -6,7 +6,7 @@ import com.example.myapplication.database.ApiSheet
 import com.example.myapplication.groupsPhones.GPhone
 
 object RepoPhone{
-    private const val linkGPh = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
+    //private const val linkGPh = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
     lateinit var myDao: PhonesDao
     val mList = mutableStateListOf<Phone>()
     val mListInitial = mutableStateListOf<Phone>()
@@ -17,7 +17,7 @@ object RepoPhone{
             Log.d("adil","active id=${activeGPhone.idGPhone} link=${activeGPhone.link}")
                 val i = activeGPhone.idGPhone
                 if (i != null) {
-                    myDao.getAll(i).observeForever {
+                    myDao.getAll(i).collect{
                         updateList(it)
                     }
 
@@ -33,6 +33,9 @@ object RepoPhone{
         mList.clear(); mListCats.clear()
         mListCats.addAll(cat) ; mList.addAll(l)
         mListInitial.clear() ; mListInitial.addAll(l)
+    }
+    suspend fun update(ph:Phone){
+        myDao.update(ph)
     }
 
     // en cours de préparation

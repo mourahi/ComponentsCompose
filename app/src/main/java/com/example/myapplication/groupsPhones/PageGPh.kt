@@ -32,7 +32,10 @@ fun PageGPh(vm: VmGPh = viewModel(),viewModelMain: MainViewModel){
     val fav = remember { mutableStateOf(false)}
     val openAddGPH = remember { mutableStateOf(false)}
 
-    MPage(
+    MPage( contentNavigationIcon =  {
+        IconButton(onClick = { viewModelMain.navController.popBackStack()}) {
+            Icon(Icons.Default.Home, contentDescription = "return", tint = Color.White)
+        }},
         contentTitle = {
                        MTextField(
                            title = "مجموعات الهاتف",
