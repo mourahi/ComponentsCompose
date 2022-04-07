@@ -10,13 +10,14 @@ object RepoPhone{
     lateinit var myDao: PhonesDao
     val mList = mutableStateListOf<Phone>()
     val mListFav = mutableStateListOf<Phone>()
-    //val mListInitial = mutableStateListOf<Phone>()
+    val mListInitial = mutableStateListOf<Phone>()
     val mListCats = mutableStateListOf<String>()
     var activeGPhone: GPhone = GPhone("","")
 
     suspend fun refreshMList(fav:Boolean = false) {
             Log.d("adil","RepoPhone: refreshMList id=${activeGPhone.idGPhone} link=${activeGPhone.link}")
-                val i = activeGPhone.idGPhone
+
+        val i = activeGPhone.idGPhone
         when {
             fav -> {
                 myDao.getAllFav().collect{
@@ -36,6 +37,7 @@ object RepoPhone{
                 val l = getDataFromServer()
                 updateList(l)
             }
+
         }
     }
 
@@ -44,7 +46,7 @@ object RepoPhone{
         Log.d("adil","RepoPhone: cat = $cat")
         mList.clear(); mListCats.clear()
         mListCats.addAll(cat) ; mList.addAll(l)
-       // mListInitial.clear() ; mListInitial.addAll(l)
+        mListInitial.clear() ; mListInitial.addAll(l)
     }
     suspend fun update(ph:Phone){
         myDao.update(ph)
