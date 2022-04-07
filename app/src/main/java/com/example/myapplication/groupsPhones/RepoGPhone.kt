@@ -9,22 +9,22 @@ object RepoGPhone {
     lateinit var myDao: GroupsPhoneDao
 
     val mList = mutableStateListOf<GPhone>()
-    val mListInitial = mutableStateListOf<GPhone>()
+    //val mListInitial = mutableStateListOf<GPhone>()
     val mListCats = mutableStateListOf<String>()
 
-    suspend fun refreshMList() {
-        myDao.getAll().observeForever {
-            updateList(it)
-        }
-
+    suspend fun refreshMList(fav:Boolean = false) {
+        Log.d("adil","RepoGPhone: refreshMList fav =$fav")
+            myDao.getAll().collect() {
+                Log.d("adil","RepoGPhone : collect")
+                updateList(it)
+            }
     }
 
     private fun updateList(l:List<GPhone>){
-        mList.clear();mListCats.clear()
         val cat = l.map { x -> x.cat }.toSet()
-        Log.d("adil", "cat = ${cat.toList()}")
+        mList.clear();mListCats.clear()
          mList.addAll(l); mListCats.addAll(cat)
-        mListInitial.clear();mListInitial.addAll(l)
+        //mListInitial.clear();mListInitial.addAll(l)
     }
 
     suspend fun update(gh:GPhone){

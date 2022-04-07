@@ -16,7 +16,7 @@ object RepoNews{
         )*/
         val d = groupsPhoneFromServer()
             val cat = d.map{it.cat}.toSet()
-            Log.d("adil","cat = ${cat.toList()}")
+            Log.d("adil","catNews = ${cat.toList()}")
             mList.clear(); mList.addAll(d)
             mListCats.clear(); mListCats.addAll(cat)
 

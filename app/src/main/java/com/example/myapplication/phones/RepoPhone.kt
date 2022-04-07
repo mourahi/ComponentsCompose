@@ -9,30 +9,42 @@ object RepoPhone{
     //private const val linkGPh = "1__YWeJR26tpyCep99NETXyMi9lXe1MA3JiJWr4y2-n0"
     lateinit var myDao: PhonesDao
     val mList = mutableStateListOf<Phone>()
-    val mListInitial = mutableStateListOf<Phone>()
+    val mListFav = mutableStateListOf<Phone>()
+    //val mListInitial = mutableStateListOf<Phone>()
     val mListCats = mutableStateListOf<String>()
     var activeGPhone: GPhone = GPhone("","")
 
-    suspend fun refreshMList() {
-            Log.d("adil","active id=${activeGPhone.idGPhone} link=${activeGPhone.link}")
+    suspend fun refreshMList(fav:Boolean = false) {
+            Log.d("adil","RepoPhone: refreshMList id=${activeGPhone.idGPhone} link=${activeGPhone.link}")
                 val i = activeGPhone.idGPhone
-                if (i != null) {
-                    myDao.getAll(i).collect{
-                        updateList(it)
-                    }
+        when {
+            fav -> {
+                myDao.getAllFav().collect{
+                    Log.d("adil","RepoPhone:refreshi collect fav")
+                    mListFav.clear();mListFav.addAll(it)
+                }
+            }
+            i != null  -> {
+                myDao.getAll(i).collect{
+                    Log.d("adil","RepoPhone: refreshi collect id != null")
+                    updateList(it)
+                }
 
-            } else if ( activeGPhone.link.length > 5) {
+            }
+            activeGPhone.link.length > 5 -> {
+                Log.d("adil","RepoPhone: refreshi fromserver")
                 val l = getDataFromServer()
                 updateList(l)
             }
+        }
     }
 
     private fun updateList(l:List<Phone>){
         val cat = l.map { x -> x.cat }.toSet()
-        Log.d("adil","cat phone = $cat")
+        Log.d("adil","RepoPhone: cat = $cat")
         mList.clear(); mListCats.clear()
         mListCats.addAll(cat) ; mList.addAll(l)
-        mListInitial.clear() ; mListInitial.addAll(l)
+       // mListInitial.clear() ; mListInitial.addAll(l)
     }
     suspend fun update(ph:Phone){
         myDao.update(ph)

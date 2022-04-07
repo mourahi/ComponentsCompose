@@ -7,16 +7,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class VmGPh:ViewModel() {
-    private val mListInitial = RepoGPhone.mListInitial
+    private val mListInitial = mutableListOf<GPhone>()
     val mList = RepoGPhone.mList
 
     val mListCats = mutableStateListOf<String>()
     val mListCatsSelected = mutableListOf<String>()
     init {
         viewModelScope.launch {
-            mListInitial.clear(); mListCats.clear()
+            Log.d("adil","VmGPh: init")
             RepoGPhone.refreshMList()
-            mListCats.addAll(RepoGPhone.mListCats)
+            mListInitial.clear(); mListInitial.addAll(mList)
+            mListCats.clear(); mListCats.addAll(RepoGPhone.mListCats)
         }
     }
 

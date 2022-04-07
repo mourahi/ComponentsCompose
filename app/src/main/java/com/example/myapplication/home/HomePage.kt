@@ -32,6 +32,8 @@ fun HomePage(viewModelMain:MainViewModel){
     val selectedFavPhone = remember { mutableStateOf(false)}
     val favFavPhone = remember { mutableStateOf(false)}
     val expandOperationsFavPhone  = remember { mutableStateOf(false) }
+    val mListFavGPhone = viewModelMain.mListFavGPhone.filter { it.fav }
+    val mListFavPhone = viewModelMain.mListFavPhone
 
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()) {
@@ -47,13 +49,13 @@ fun HomePage(viewModelMain:MainViewModel){
                 )
             }
             val tabData = listOf(
-                arrayOf("المجموعة",Icons.Filled.Workspaces, viewModelMain.mListFavGPhone),
-                arrayOf("الهاتف", Icons.Filled.Call, viewModelMain.mListFavPhone) )
+                arrayOf("المجموعة",Icons.Filled.Workspaces, mListFavGPhone),
+                arrayOf("الهاتف", Icons.Filled.Call, mListFavPhone) )
             MTab(tabData,tabIndex)
 
                 if (tabIndex.value == 0) {
-                    MCardsGPhone(viewModelMain=viewModelMain,
-                        mList = viewModelMain.mListFavGPhone,
+                    MCardsGPhone(viewModelMain= viewModelMain,
+                        mList = mListFavGPhone,
                         selected = selectedFavPhone,
                         fav = favFavPhone,
                         expandOperations = expandOperationsFavPhone,
@@ -61,14 +63,14 @@ fun HomePage(viewModelMain:MainViewModel){
                         oneSel = { _, _ -> false }
                     )
                 } else {
-                       MCardPhones(
-                            mList = viewModelMain.mListFavPhone,
-                            selected = selectedFavPhone,
-                            fav = favFavPhone,
-                            expandOperations = expandOperationsFavPhone,
-                            oneFav = { viewModelMain.oneFavPhone(it) },
-                            oneSel = { _, _ -> false }
-                        )
+                    MCardPhones(
+                        mList = mListFavPhone,
+                        selected = selectedFavPhone,
+                        fav = favFavPhone,
+                        expandOperations = expandOperationsFavPhone,
+                        oneFav = { viewModelMain.oneFavPhone(it) },
+                        oneSel = { _, _ -> false }
+                    )
                 }
     }
 }

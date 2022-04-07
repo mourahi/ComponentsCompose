@@ -66,7 +66,6 @@ fun PageGPh(vm: VmGPh = viewModel(),viewModelMain: MainViewModel){
         contentCats = {
             if(vm.mListCats.size>1) { // no need to show one cat
                 MCats(vm.mListCats, vm.mListCatsSelected) {
-                    Log.d("adil", "listSelected=${vm.mListCatsSelected}")
                     vm.find()
                 } }
         },

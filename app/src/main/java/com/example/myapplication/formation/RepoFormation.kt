@@ -16,7 +16,7 @@ object RepoFormation{
         )*/
         val d = groupsPhoneFromServer()
             val cat = d.map{it.cat}.toSet()
-            Log.d("adil","cat = ${cat.toList()}")
+            Log.d("adil","catFormation = ${cat.toList()}")
             mList.clear(); mList.addAll(d)
             mListCats.clear(); mListCats.addAll(cat)
 

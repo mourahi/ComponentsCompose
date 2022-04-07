@@ -3,6 +3,7 @@ package com.example.myapplication.mainbigsi
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -19,16 +20,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
     private val myDB: MyRoomDB by lazy { MyRoomDB.myDB(application) }
 
     lateinit var navController: NavHostController
-    val mListFavPhone = RepoPhone.mList.filter { it.fav }
-    val mListFavGPhone = RepoGPhone.mList.filter { it.fav }
+    val mListFavPhone = RepoPhone.mListFav
+    var mListFavGPhone = RepoGPhone.mList
 
     init {
+        Log.d("adil","initial MainViewModel")
         viewModelScope.launch {
             RepoPhone.myDao = myDB.myPhonesDao()
-            RepoPhone.refreshMList()
+            Log.d("adil","mainvviewmodel1")
+            RepoPhone.refreshMList(true)
+            Log.d("adil","Mainviemodel1: mlist = $mListFavGPhone")
         }
         viewModelScope.launch{
             RepoGPhone.myDao = myDB.myGroupsDao()
+            Log.d("adil","mainvviewmodel2")
             RepoGPhone.refreshMList()
         }
     }
@@ -38,7 +43,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
         //return  RepoGPhone.mList.size>0 && (RepoGPhone.mList.size == RepoGPhone.mList.filter { it.fav }.size)
     }
     fun oneFavPhone(ph:Phone){
-        viewModelScope.launch {  RepoPhone.update(ph) }
+        viewModelScope.launch {
+            RepoPhone.update(ph)
+           // RepoPhone.refreshMList(true)
+        }
     }
 
 }

@@ -17,7 +17,7 @@ object RepoGPhoneServer{
         mListInitial.clear()
         val d = groupsPhoneFromServer()
             val cat = d.map{it.cat}.toSet()
-        val temp = RepoGPhone.myDao.getAll().observeForever {
+        val temp = RepoGPhone.myDao.getAll().collect {
             val existant = it.map { x->x.link }
             Log.d("adil", "exisitant =${existant.toList()}")
             d.forEach { xx->

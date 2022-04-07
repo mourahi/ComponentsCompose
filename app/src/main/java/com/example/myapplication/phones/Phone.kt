@@ -62,6 +62,9 @@ interface PhonesDao {
     @Query("SELECT * FROM phones WHERE refGroup = :idGPhone" )
     fun getAll(idGPhone: Int): Flow<List<Phone>>
 
+    @Query("SELECT * FROM phones WHERE fav = 1 ")
+    fun getAllFav():Flow<List<Phone>>
+
     @Insert
     suspend fun insertList(phs:List<Phone>)
 

@@ -62,7 +62,6 @@ fun PagePh(vm: VmPh = viewModel(),viewModelMain: MainViewModel){
         expandCats = expandCats,
         expandOperations =expandOperations,
         contentCats = {
-            Log.d("adil","cat depuis pagehone = ${vm.mListCats.toList()}")
             if(vm.mListCats.size>1) { // no need to show one cat
                 MCats(vm.mListCats, vm.mListCatsSelected) {
                     Log.d("adil", "listSelected=${vm.mListCatsSelected}")

@@ -1,7 +1,7 @@
 package com.example.myapplication.groupsPhones
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Entity(tableName = "groups_phone")
 class GPhone(
@@ -20,7 +20,10 @@ class GPhone(
 @Dao
 interface GroupsPhoneDao {
     @Query("SELECT * FROM groups_phone")
-    fun getAll(): LiveData<List<GPhone>>
+    fun getAll(): Flow<List<GPhone>>
+
+    @Query("SELECT * FROM groups_phone WHERE fav = 'true'")
+    fun getAllFav(): Flow<List<GPhone>>
 
     @Insert
     suspend fun insert(gh:GPhone):Long

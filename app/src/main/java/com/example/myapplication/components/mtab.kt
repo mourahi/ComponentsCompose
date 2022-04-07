@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MTab(tabData:List<Array<Any>>, tabIndex: MutableState<Int>) {
+fun MTab(tabData: List<Array<out Any?>>, tabIndex: MutableState<Int>) {
     TabRow(selectedTabIndex = tabIndex.value) {
         tabData.forEachIndexed { index, arr ->
             Tab(selected = tabIndex.value == index, onClick = {

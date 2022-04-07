@@ -2,6 +2,7 @@ package com.example.myapplication.mainbigsi
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -40,7 +42,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun BigSI(application: Application) {
-    val viewModelMain = MainViewModel(application)
+    Log.d("adil","demarrage BigSI")
+    val viewModelMain:MainViewModel = viewModel()
     viewModelMain.navController = rememberNavController()
     NavHost(navController = viewModelMain.navController , startDestination = "homepage"){
         composable("homepage"){ HomePage(viewModelMain) }

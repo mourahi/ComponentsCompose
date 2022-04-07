@@ -6,15 +6,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class VmPh:ViewModel() {
-    private val mListInitial = RepoPhone.mListInitial
+    private val mListInitial = mutableListOf<Phone>()
     val mList = RepoPhone.mList
 
     val mListCats = RepoPhone.mListCats
     val mListCatsSelected = mutableListOf<String>()
     init {
         viewModelScope.launch {
-            mListInitial.clear()
+            Log.d("adil","VmPh: init")
             RepoPhone.refreshMList()
+            mListInitial.clear()
+            mListInitial.addAll(mList)
         }
     }
 
