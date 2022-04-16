@@ -65,6 +65,9 @@ interface PhonesDao {
     @Query("SELECT * FROM phones WHERE fav = 1 ")
     fun getAllFav():Flow<List<Phone>>
 
+    @Query("SELECT * FROM phones WHERE idPhone = :idGPhone AND name LIKE :s  ")
+    fun find(idGPhone: Int, s:String):Flow<List<Phone>>
+
     @Insert
     suspend fun insertList(phs:List<Phone>)
 
@@ -73,4 +76,7 @@ interface PhonesDao {
 
     @Update
     suspend fun update(ph:Phone)
+
+    @Query ("UPDATE phones SET fav =:b WHERE idPhone IN (:l)")
+    suspend fun updateListFav(l:List<Int>,b:Boolean)
 }

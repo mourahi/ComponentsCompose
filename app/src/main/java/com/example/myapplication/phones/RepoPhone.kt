@@ -28,20 +28,20 @@ object RepoPhone{
             i != null  -> {
                 myDao.getAll(i).collect{
                     Log.d("adil","RepoPhone: refreshi collect id != null")
-                    updateList(it)
+                    createList(it)
                 }
 
             }
             activeGPhone.link.length > 5 -> {
                 Log.d("adil","RepoPhone: refreshi fromserver")
                 val l = getDataFromServer()
-                updateList(l)
+                createList(l)
             }
 
         }
     }
 
-    private fun updateList(l:List<Phone>){
+    private fun createList(l:List<Phone>){
         val cat = l.map { x -> x.cat }.toSet()
         Log.d("adil","RepoPhone: cat = $cat")
         mList.clear(); mListCats.clear()
@@ -50,6 +50,26 @@ object RepoPhone{
     }
     suspend fun update(ph:Phone){
         myDao.update(ph)
+    }
+    suspend fun updateListFav(l:List<Int>,b:Boolean){
+        Log.d("adil","essai update de ${l.size}")
+        myDao.updateListFav(l,b)
+    }
+    suspend fun find(s:String, mListSelected: List<String>? = null){
+     if(s =="") {
+         activeGPhone.idGPhone?.let {
+             myDao.getAll(it).collect { x->
+              val r= if(mListSelected != null)  x.filter { v-> v.cat in mListSelected } else x
+                 mList.clear(); mList.addAll(r)
+             }
+         }
+     }
+        else activeGPhone.idGPhone?.let {
+         myDao.find(it, s).collect{ x->
+             val r= if(mListSelected != null)  x.filter { v-> v.cat in mListSelected } else x
+             mList.clear(); mList.addAll(r)
+         }
+     }
     }
 
     // en cours de préparation

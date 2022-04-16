@@ -28,8 +28,8 @@ fun PagePh(vm: VmPh = viewModel(),viewModelMain: MainViewModel){
     val expandCats  = remember { mutableStateOf(true) }
     val expandOperations  = remember { mutableStateOf(false) }
     val openedMenu  = remember { mutableStateOf(false) }
-    val selected = remember { mutableStateOf(false)}
-    val fav = remember { mutableStateOf(false)}
+    val selected = remember { mutableStateOf(vm.mListCatsSelected.size == vm.mList.filter { it.fav }.size)}
+    val fav = remember { mutableStateOf(vm.mListCatsSelected.size == vm.mList.filter { it.fav }.size)}
     val openAddGPH = remember { mutableStateOf(false)}
 
     MPage(
@@ -84,12 +84,12 @@ fun PagePh(vm: VmPh = viewModel(),viewModelMain: MainViewModel){
                 MToggle(
                     icon1 = Icons.Filled.FavoriteBorder,
                     icon2 = Icons.Filled.Favorite,
-                    selected = fav.value,
+                    selected = vm.mList.size == vm.mList.filter { it.fav }.size,
                     txt = vm.getNbrFav()
                 ) {
                     if(vm.mListCatsSelected.size > 0) {
                         fav.value = it
-                        vm.allFav()
+                        vm.allFav(it)
                     }
                 }
                 Spacer(modifier = Modifier.width(10.dp))

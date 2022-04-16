@@ -15,6 +15,11 @@ class VmPh:ViewModel() {
         viewModelScope.launch {
             Log.d("adil","VmPh: init")
             RepoPhone.refreshMList()
+            if(RepoPhone.mListInitial.size>0){
+                RepoPhone.mListInitial.forEach {
+                    it.sel = false
+                }
+            }
         }
     }
 
@@ -29,23 +34,16 @@ class VmPh:ViewModel() {
         }
         RepoPhone.mList.addAll(t)
     }
-    fun allFav(){
-        val t = RepoPhone.mList.toList(); RepoPhone.mList.clear()
-        RepoPhone.mList.clear()
-        val nbrFav  = t.filter { it.fav }.size
-        val nbrSel = t.filter { it.sel }.size
-        t.forEach{
-            if(nbrSel > nbrFav) { it.fav = true }
-            else if(it.sel) it.fav = !it.fav
-        }
-        RepoPhone.mList.addAll(t)
+    fun allFav(b:Boolean){
+        val r = mList.filter { it.sel }.map { it.idPhone }
+        viewModelScope.launch { RepoPhone.updateListFav(r as List<Int>,b) }
     }
     fun oneSel(b:Boolean,index:Int): Boolean{
-        val t = RepoPhone.mList.toList(); RepoPhone.mList.clear()
-        val v = t[index]
-        v.sel = b ; RepoPhone.mList.addAll(t)
-        if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
-        return  mListCatsSelected.size == mList.size && mListCatsSelected.size>0
+       RepoPhone.mList.forEachIndexed { i, phone ->
+            if(i == index) phone.sel = b
+        }
+        //if(v.name in mListCatsSelected) mListCatsSelected.remove(v.name) else mListCatsSelected.add(v.name)
+        return  mList.size == mList.filter { it.fav }.size
     }
     fun oneFav(ph:Phone){
        viewModelScope.launch { RepoPhone.update(ph) }
@@ -67,10 +65,9 @@ class VmPh:ViewModel() {
       return  if(mListCatsSelected.size> 0) mListCatsSelected.size.toString() else ""
     }
     fun find(s:String?=null){
-        Log.d("adil","mListSelected = ${mListCatsSelected.toList()} mListInitial = $mListInitial")
-        var t =if(mListCatsSelected.isNotEmpty())  mListInitial.filter { it.cat in mListCatsSelected }.toList() else mListInitial.toList()
-       t= if(s != null) t.filter { it.name.contains(s,ignoreCase = true) } else t
-        RepoPhone.mList.clear() ; RepoPhone.mList.addAll(t)
+       viewModelScope.launch {
+               RepoPhone.find(s ?: "",mListCatsSelected)
+       }
     }
 
 }
